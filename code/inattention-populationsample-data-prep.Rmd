@@ -59,17 +59,19 @@ Output files (data):
  
 
 ```{r, echo=TRUE, eval=TRUE} 
-fn <- "../data2/inattention_Arvid_new.sav"
+# fn <- "../data2/inattention_Arvid_new.sav"
+fn <- "../Dropbox/Arvid_inatteion/data2/inattention_Arvid_new.sav"
 ```
 
 
-```{r, echo=TRUE, eval=FALSE}
+```{r, echo=TRUE, eval=TRUE}
 # The original SPSS file as provided to AJL is
 # 'inattention_Astri_94_96_new_grades_updated.sav'
 # and being edited and reduced by AJL to 'inattention_Arvid_new.sav'
 # Import data stored in the SPSS format
 library(memisc)
-fn <- "../data2/inattention_Arvid_new.sav"
+# fn <- "../data2/inattention_Arvid_new.sav"
+fn <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Arvid_new.sav"
 data <- as.data.set(spss.system.file(fn))
 
 # Make new data frame from the sample with the variables 
@@ -85,7 +87,7 @@ summary(d)
 
 <img src="../images/summary_d.png" width="500px" height="500px" />
 
-```{r, echo=TRUE, eval=FALSE}
+```{r, echo=TRUE, eval=TRUE}
 # Get observations of data frame that have missing values and those with complete cases
 library(psych)
 d.miss <- d[!complete.cases(d),]
@@ -94,6 +96,12 @@ str(d.nomiss)
 headTail(as.data.frame(d.nomiss))
 summary(d.nomiss)
 D1 <- d.nomiss   # For later use
+```
+
+### ! Make a table of SNAP1-9 distribution according to Not true, Somewhat Truer Certainly tru for boys and girls separately
+
+```{r, echo=TRUE, eval=TRUE}
+summary(D1$snap1[D1$gender == "Boy"])
 ```
 
 ```{r, echo=TRUE, eval=FALSE}
@@ -132,6 +140,7 @@ D$gender <- mapvalues(as.factor(D$gender), from = c("Girl", "Boy"), to = c("0", 
 D$gender <- as.numeric(D$gender)-1
 D$grade <- as.numeric(D$grade)
 str(D)
+headTail(D)
 D3 <- D   # For later use
 ```
 
@@ -170,6 +179,7 @@ D$gender <- mapvalues(as.factor(D$gender), from = c("Girl", "Boy"), to = c("0", 
 D$gender <- as.numeric(D$gender)-1
 D$grade <- as.numeric(D$grade)
 str(D)
+headTail(D)
 D2 <- D  # For later use
 ```
 
@@ -225,7 +235,7 @@ engine = "dot")
 
 print(gviz)
 
-# This does not worl using DiagrammeR / GraphViz
+# This does not work using DiagrammeR / GraphViz
 # png("../manuscript/Figs/graph_design.png")
 # print(gviz)
 # dev.off()
@@ -332,6 +342,7 @@ write.csv(E, file = "../data/inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is
 #### Converting numerical variables to factors
 
 ```{r, echo=TRUE, eval=TRUE}
+library(xtable)
 C <- as.data.frame(C)
 # select columns
 cols <- c("gender", "grade", "snap1", "snap2", "snap3", "snap4", "snap5", "snap6", "snap7", "snap8", "snap9", "averBinned")
@@ -355,6 +366,7 @@ levels(C$averBinned) <- c("H", "L", "M")    # numerical order = alphabetical ord
 str(C)
 headTail(C)
 summary(C)
+xtable(summary(C))
 ```
 
 ```{r, echo=TRUE, eval=TRUE}

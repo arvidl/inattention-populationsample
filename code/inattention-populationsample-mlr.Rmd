@@ -280,9 +280,169 @@ b <- exp(coef(mlogit.E.1))
 b
 summary(b)
 
+# https://www.r-bloggers.com/how-to-get-the-frequency-table-of-a-categorical-variable-as-a-data-frame-in-r/
+ci <- confint(mlogit.E.1, level=0.95)
+print(ci)
+```
+
+#### How to plot ROC curves in multiclass classification?
+
+http://stats.stackexchange.com/questions/2151/how-to-plot-roc-curves-in-multiclass-classification
+install.packages("pROC")
+I recently found this [pROC](http://web.expasy.org/pROC) package in R which plots a multiclass ROC using the technique specified by Hand and Till (2001). You can use the multiclass.roc function.
+
+
+### Example from UCLA Statistical Consulting Group
+#### R Data Analysis Examples: Multinomial Logistic Regression
+
+[mlogit](http://www.ats.ucla.edu/stat/r/dae/mlogit.htm)
+
+Multinomial logistic regression is used to model nominal outcome variables, in which the log odds of the outcomes are modeled as a linear combination of the predictor variables.
+
+This page uses the following packages. Make sure that you can load them before trying to run the examples on this page. If you do not have a package installed, run: install.packages("packagename"), or if you see the version is out of date, run: update.packages().
+
+```{r, echo=TRUE, eval=TRUE}
+library(foreign)
+library(nnet)
+library(ggplot2)
+library(reshape2)
+```
+*Please note:* The purpose of this page is to show how to use various data analysis commands. It does not cover all aspects of the research process which researchers are expected to do. In particular, it does not cover data cleaning and checking, verification of assumptions, model diagnostics or potential follow-up analyses.
+
+#### Examples of multinomial logistic regression
+
+*Example 1.* People's occupational choices might be influenced by their parents' occupations and their own education level. We can study the relationship of one's occupation choice with education level and father's occupation. The occupational choices will be the outcome variable which consists of categories of occupations.
+
+*Example 2*. A biologist may be interested in food choices that alligators make. Adult alligators might have different preferences from young ones. The outcome variable here will be the types of food, and the predictor variables might be size of the alligators and other environmental variables.
+
+*Example 3.* Entering high school students make program choices among general program, vocational program and academic program. Their choice might be modeled using their writing score and their social economic status.
+
+#### Description of the data
+
+```{r, echo=TRUE, eval=TRUE}
+ml <- read.dta("http://www.ats.ucla.edu/stat/data/hsbdemo.dta")
+```
+The data set contains variables on 200 students. The outcome variable is prog, program type. The predictor variables are social economic status, ses, a three-level categorical variable and writing score, write, a continuous variable. Let's start with getting some descriptive statistics of the variables of interest.
+
+```{r, echo=TRUE, eval=TRUE}
+with(ml, table(ses, prog))
 ```
 
 
+```{r, echo=TRUE, eval=TRUE}
+with(ml, do.call(rbind, tapply(write, prog,
+  function(x) c(M = mean(x), SD = sd(x)))))
+```
+
+#### Analysis methods you might consider
+
+ * Multinomial logistic regression, the focus of this page.
+
+ * Multinomial probit regression, similar to multinomial logistic regression with independent normal error terms.
+
+ * Multiple-group discriminant function analysis. A multivariate method for multinomial outcome variables
+
+ * Multiple logistic regression analyses, one for each pair of outcomes: One problem with this approach is that each analysis is potentially run on a different sample. The other problem is that without constraining the logistic models, we can end up with the probability of choosing all possible outcome categories greater than 1.
+
+ * Collapsing number of categories to two and then doing a logistic regression: This approach suffers from loss of information and changes the original research questions to very different ones.
+
+ * Ordinal logistic regression: If the outcome variable is truly ordered and if it also satisfies the assumption of proportional odds, then switching to ordinal logistic regression will make the model more parsimonious.
+
+ * Alternative-specific multinomial probit regression, which allows different error structures therefore allows to relax the IIA assumption. This requires that the data structure be choice-specific.
+
+ * Nested logit model, another way to relax the IIA assumption, also requires the data structure be choice-specific.
+
+
+#### Multinomial logistic regression
+
+Below we use the multinom function from the nnet package to estimate a multinomial logistic regression model. There are other functions in other R packages capable of multinomial regression. We chose the multinom function because it does not require the data to be reshaped (as the mlogit package does) and to mirror the example code found in Hilbe's Logistic Regression Models.
+
+Before running our model it is important to choose a refernce group for our outcome. We can choose the level of our outcome that we wish to use as our baseline and specify this in the relevel function. Then, we run our model using multinom. The multinom package does not include p-value calculation for the regression coefficients, so we calculate p-values using Wald tests (here z-tests).
+
+```{r, echo=TRUE, eval=TRUE}
+ml$prog2 <- relevel(ml$prog, ref = "academic")
+test <- multinom(prog2 ~ ses + write, data = ml)
+```
+
+
+```{r, echo=TRUE, eval=TRUE}
+summary(test)
+```
+
+
+```{r, echo=TRUE, eval=TRUE}
+z <- summary(test)$coefficients/summary(test)$standard.errors
+print(z)
+```
+
+
+```{r, echo=TRUE, eval=TRUE}
+#2-tailed z test
+p <- (1 - pnorm(abs(z), 0, 1))*2
+print(p)
+```
+
+The ratio of the probability of choosing one outcome category over the probability of choosing the baseline category is often referred as relative risk (and it is also sometimes referred as odds as we have just used to described the regression parameters above). The relative risk is the right-hand side linear equation exponentiated, leading to the fact that the exponentiated regression coefficients are relative risk ratios for a unit change in the predictor variable. We can exponentiate the coefficients from our model to see these risk ratios.
+
+```{r, echo=TRUE, eval=TRUE}
+## extract the coefficients from the model and exponentiate
+exp(coef(test))
+```
+
+You can also use predicted probabilities to help you understand the model. You can calculate predicted probabilities for each of our outcome levels using the fitted function. We can start by generating the predicted probabilities for the observations in our dataset and viewing the first few rows
+```{r, echo=TRUE, eval=TRUE}
+head(pp <- fitted(test))
+```
+
+Next, if we want to examine the changes in predicted probability associated with one of our two variables, we can create small datasets varying one variable while holding the other constant. We will first do this holding write at its mean and examining the predicted probabilities for each level of ses.
+```{r, echo=TRUE, eval=TRUE}
+dses <- data.frame(ses = c("low", "middle", "high"), write = mean(ml$write))
+predict(test, newdata = dses, "probs")
+```
+
+Another way to understand the model using the predicted probabilities is to look at the averaged predicted probabilities for different values of the continuous predictor variable write within each level of *ses*.
+```{r, echo=TRUE, eval=FALSE}
+#dwrite <- data.frame(ses = rep(c("low", "middle", "high"), each = 41), write = rep(c(30:70), 3)
+# store the predicted probabilities for each value of ses and write
+pp.write <- cbind(dwrite, predict(test, newdata = dwrite, type = "probs", se = TRUE))
+
+## calculate the mean probabilities within each level of ses
+by(pp.write[, 3:5], pp.write$ses, colMeans)
+```
+
+Sometimes, a couple of plots can convey a good deal amount of information. Using the predictions we generated for the pp.write object above, we can plot the predicted probabilities against the writing score by the level of ses for different levels of the outcome variable.
+```{r, echo=TRUE, eval=FALSE}
+## melt data set to long for ggplot2
+lpp <- melt(pp.write, id.vars = c("ses", "write"), value.name = "probability")
+head(lpp) # view first few rows
+```
+
+```{r, echo=TRUE, eval=FALSE}
+## plot predicted probabilities across write values for
+## each level of ses facetted by program type
+ggplot(lpp, aes(x = write, y = probability, colour = ses)) +
+  geom_line() +
+  facet_grid(variable ~ ., scales="free")
+``` 
+
+
+#### Things to consider
+
+ * The Independence of Irrelevant Alternatives (IIA) assumption: Roughly, the IIA assumption means that adding or deleting alternative outcome categories does not affect the odds among the remaining outcomes. There are alternative modeling methods, such as alternative-specific multinomial probit model, or nested logit model to relax the IIA assumption.
+
+ * Diagnostics and model fit: Unlike logistic regression where there are many statistics for performing model diagnostics, it is not as straightforward to do diagnostics with multinomial logistic regression models. For the purpose of detecting outliers or influential data points, one can run separate logit models and use the diagnostics tools on each model.
+
+ * Sample size: Multinomial regression uses a maximum likelihood estimation method, it requires a large sample size. It also uses multiple equations. This implies that it requires an even larger sample size than ordinal or binary logistic regression.
+
+ * Complete or quasi-complete separation: Complete separation means that the outcome variable separate a predictor variable completely, leading perfect prediction by the predictor variable.
+
+ * Perfect prediction means that only one value of a predictor variable is associated with only one value of the response variable. But you can tell from the output of the regression coefficients that something is wrong. You can then do a two-way tabulation of the outcome variable with the problematic variable to confirm this and then rerun the model without the problematic variable.
+
+ * Empty cells or small cells: You should check for empty or small cells by doing a cross-tabulation between categorical predictors and the outcome variable. If a cell has very few cases (a small cell), the model may become unstable or it might not even run at all.
+
+
+
+  
 <!-- regular html comment
 
 Train the MLR or RF or ANN model on the training set (caret package)
