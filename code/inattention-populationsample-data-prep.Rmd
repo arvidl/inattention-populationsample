@@ -1,5 +1,6 @@
 ---
-title: "Prediction of academic achievement in adolescents from teacher reports of inattention in childhood - a methodological pattern classification study"
+title: "Prediction of academic achievement in adolescents from teacher reports of inattention in childhood - a pattern classification study" 
+subtitle: "AJ Lundervold, T Bø, A Lundervold"
 output: html_notebook
 ---
 
@@ -14,31 +15,8 @@ When you save the notebook, an HTML file containing the code and output will be 
 </small>
 
 
-## Abstract
-
-### Background
-Inattentive behavior is associated with academic problems. The present study investigates primary school teacher reports on nine items reflecting different aspects of inattention, with an aim to reveal patterns of behavior predicting high-school academic achievement. To that end, we used different types of pattern analysis and machine learning methods. 
-
-### Methods
-Inattention in a sample 2397 individuals were rated by their primary school teachers when they participated in the first wave of the Bergen Child Study (BCS) (7 - 9 years old), and their academic achievements were available from an official school register when attending high-school (16 - 19 years old). Inattention was assessed by the nine items rated at a categorical leve, and the academic achievement scores were divided into three parts including a similar number of participants. 
-
-### Results 
-Boys obtained higher inattention scores and lower academic scores than girls. Inattention problems related to sustained attention and distractibility turned out to have the highest predictive value of academic achievement level across all selected statistical analyses, and the full model showed that inattention explained about 10\% of the variance in high school scores about 10 years later. A high odds-ration of being allocated to the lowest academic achievement category was shown by a multinominal regression analysis, while a pattern of problems related to sustained attention and distractibility was revealed by generating classification trees. By including recursive learning algorithms, the most successful classification was found between these inattention items and the highest level of achievement scores. 
-
-### Summary 
-The present study showed the importance of a pattern of early problems related to sustained attention and distractibility in predicting future academic results. By including different statistical classification models we showed that this pattern was fairly consistent. Furthermore, calculation of classification errors gave information about the uncertainty when predicting the outcome for individual children. Further studies should include a wider range of variables. 
-
-
-
-
 <small>Organization of the data and the analysis:</small>
 
-Libraries being used:
-
-* memisc - spss.system.file()
-* psych  - headTail(), describe()
-* Hmisc - describe()
-* pander - pander(), panderOptions()
 
 <img src="../images/Data_to_classes_pptx.jpg" width="500px" height="500px" />
 
@@ -46,11 +24,13 @@ Libraries being used:
 
 Input file:
 
- * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inatteion/data2)
- * inattention_nomiss_2397x12.csv
+ * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inattention/data2)
+ * inattention_Astri_94_96_new_grades_updated.sav (on ~/Dropbox/Arvid_inattention/data2) [Correct age]
+ * Alternatively: D <- read.csv(file = "../data/inattention_nomiss_2397x12.csv")
  
 Output files (data):
 
+ * inattention_nomiss_2397x12.csv
  * inattention_nomiss_2397x12_snap_is_0_1_2.csv
  * inattention_nomiss_2397x12_snap_is_0_1.csv
  * inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv (Low, Medium, High academic score)
@@ -59,8 +39,7 @@ Output files (data):
  
 
 ```{r, echo=TRUE, eval=FALSE} 
-# fn <- "../data2/inattention_Arvid_new.sav"
-fn <- "../Dropbox/Arvid_inatteion/data2/inattention_Arvid_new.sav"
+ # D <- read.csv(file = "../data/inattention_nomiss_2397x12.csv")
 ```
 
 
@@ -74,6 +53,16 @@ library(memisc)
 fn <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Arvid_new.sav"
 data <- as.data.set(spss.system.file(fn))
 
+library(foreign)
+fn_age <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Astri_94_96_new_grades_updated.sav"
+Sys.getlocale()
+#Sys.setlocale(locale="C")
+data_age <- read.spss(fn_age, to.data.frame=TRUE, use.value.labels=FALSE)
+#names(data_age)
+dim(data_age)
+age_c4 = data_age$c_4_age_at_completion 
+summary(age_c4)
+
 # Make new data frame from the sample with the variables 
 # gender, grade, SNAP1, ..., SNAP9 (vars #1-11) and
 # academic_achievement (var #52) 
@@ -83,6 +72,9 @@ dim(d)
 names(d)
 str(d)
 summary(d)
+dd <- d
+dd$age <- age_c4
+summary(dd)
 ```
 
 <img src="../images/summary_d.png" width="500px" height="500px" />
@@ -96,7 +88,28 @@ str(d.nomiss)
 headTail(as.data.frame(d.nomiss))
 summary(d.nomiss)
 D1 <- d.nomiss   # For later use
+dd.nomiss <- dd[complete.cases(dd),]
+summary(dd.nomiss)
 ```
+
+#### For the manuscript
+
+```{r, echo=TRUE, eval=TRUE}
+ss = summary(D1$gender)
+```
+
+##### Running a t-test regarding age and gender 
+```{r, echo=TRUE, eval=TRUE}
+tt <- with(subset(dd.nomiss, gender %in% c("Girl", "Boy")),
+     t.test(age ~ factor(gender)))
+tt
+```    
+
+.. and information about gender and academic achievement when they participated in the fourth study wave - in total `r nrow(D1)` participants, `r ss[[1]]` `r names(ss[1])`s and `r ss[[2]]` `r names(ss[2])`s.
+Mean age when included in wave 4 was `r mean(dd.nomiss$age)` (16.95) years  and SD `r sd(dd.nomiss$age)` (SD = .846), with a slightly higher mean age in girls compared to boys (p=`r tt$p.value`) 
+
+nonsignificant age-difference between girls and boys (p = .088).
+
 
 ### ! Make a table of SNAP1-9 distribution according to Not true (N), Somewhat true (S),  Certainly true (C) for boys and girls separately
 
@@ -106,6 +119,17 @@ summary(D1$snap1[D1$gender == "Boy"])
 
 ```{r, echo=TRUE, eval=TRUE}
 summary(D1$snap1[D1$gender == "Girl"])
+```
+
+```{r, echo=TRUE, eval=TRUE}
+# Association Statistics
+# Computes the Pearson chi-Squared test, the Likelihood Ratio chi-Squared test, 
+# the phi coefficient, the contingency coefficient and Cramer's V for possibly 
+# stratified contingency tables.
+library(vcd)
+
+tab <- xtabs(~gender + grade, data = D1)
+summary(assocstats(tab))
 ```
 
 
