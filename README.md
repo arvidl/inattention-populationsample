@@ -36,7 +36,7 @@ Libraries being used:
 * Hmisc - describe()
 * pander - pander(), panderOptions()
 
-<img src="./images/Data_to_classes_20160205_pptx.jpg" width="500px" height="500px" />
+<img src="./images/Data_to_classes_pptx.jpg" width="500px" height="500px" />
 
 ### Data preparation
 
