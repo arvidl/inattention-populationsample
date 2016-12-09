@@ -40,9 +40,12 @@ Libraries being used:
 
 ### Data preparation
 
+Code:
+ * inattention-populationsample-data-prep.Rmd
+ 
 Input file:
 
- * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inatteion/data2)
+ * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inattention/data2)
  * inattention_nomiss_2397x12.csv
  
 Output files (data):
