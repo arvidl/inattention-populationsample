@@ -40,7 +40,7 @@ Libraries being used:
 * Hmisc - describe()
 * pander - pander(), panderOptions()
 
-<img src="../images/Data_to_classes_20160205_pptx.jpg" width="500px" height="500px" />
+<img src="../images/Data_to_classes_pptx.jpg" width="500px" height="500px" />
 
 ### Data preparation
 
@@ -58,7 +58,7 @@ Output files (data):
  * inattention_nomiss_2397x12_snap_is_N_S_C_outcome_is_L_M_H.csv (Not, Somewhat, Certainly true)
  
 
-```{r, echo=TRUE, eval=TRUE} 
+```{r, echo=TRUE, eval=FALSE} 
 # fn <- "../data2/inattention_Arvid_new.sav"
 fn <- "../Dropbox/Arvid_inatteion/data2/inattention_Arvid_new.sav"
 ```
@@ -70,7 +70,7 @@ fn <- "../Dropbox/Arvid_inatteion/data2/inattention_Arvid_new.sav"
 # and being edited and reduced by AJL to 'inattention_Arvid_new.sav'
 # Import data stored in the SPSS format
 library(memisc)
-# fn <- "../data2/inattention_Arvid_new.sav"
+# fn <- "../data/inattention_Arvid_new.sav"
 fn <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Arvid_new.sav"
 data <- as.data.set(spss.system.file(fn))
 
@@ -98,16 +98,21 @@ summary(d.nomiss)
 D1 <- d.nomiss   # For later use
 ```
 
-### ! Make a table of SNAP1-9 distribution according to Not true, Somewhat Truer Certainly tru for boys and girls separately
+### ! Make a table of SNAP1-9 distribution according to Not true (N), Somewhat true (S),  Certainly true (C) for boys and girls separately
 
 ```{r, echo=TRUE, eval=TRUE}
 summary(D1$snap1[D1$gender == "Boy"])
 ```
 
-```{r, echo=TRUE, eval=FALSE}
-# Save the nomis D to an .csv file without row names for further analysis
+```{r, echo=TRUE, eval=TRUE}
+summary(D1$snap1[D1$gender == "Girl"])
+```
+
+
+```{r, echo=TRUE, eval=TRUE}
+# Save the nomiss D to an .csv file without row names for further analysis
 D <- d.nomiss
-write.csv(D, file = "../data2/inattention_nomiss_2397x12.csv",row.names=FALSE)
+write.csv(D, file = "../data/inattention_nomiss_2397x12.csv",row.names=FALSE)
 ```
 
 
