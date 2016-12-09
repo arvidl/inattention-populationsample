@@ -36,17 +36,21 @@ Libraries being used:
 * Hmisc - describe()
 * pander - pander(), panderOptions()
 
-<img src="./images/Data_to_classes_20160205_pptx.jpg" width="500px" height="500px" />
+<img src="./images/Data_to_classes_pptx.jpg" width="500px" height="500px" />
 
 ### Data preparation
 
+Code:
+ * inattention-populationsample-data-prep.Rmd
+ 
 Input file:
 
- * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inatteion/data2)
- * inattention_nomiss_2397x12.csv
+ * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inattention/data2)
+ * Alternatively: D <- read.csv(file = "../data/inattention_nomiss_2397x12.csv")
  
 Output files (data):
 
+ * inattention_nomiss_2397x12.csv
  * inattention_nomiss_2397x12_snap_is_0_1_2.csv
  * inattention_nomiss_2397x12_snap_is_0_1.csv
  * inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv (Low, Medium, High academic score)
