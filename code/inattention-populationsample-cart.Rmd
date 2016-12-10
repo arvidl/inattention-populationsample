@@ -1,5 +1,6 @@
 ---
-title: "Prediction of academic achievement in adolescents from teacher reports of inattention in childhood - a methodological pattern classification study"
+title: "Prediction of academic achievement in adolescents from teacher reports of inattention in childhood - a pattern classification study" 
+subtitle: "AJ Lundervold, T Bø, A Lundervold"
 output: html_notebook
 ---
 
@@ -15,73 +16,13 @@ When you save the notebook, an HTML file containing the code and output will be 
 </small>
 
 
-## Abstract
-
-### Background
-Inattentive behavior is associated with academic problems. The present study investigates primary school teacher reports on nine items reflecting different aspects of inattention, with an aim to reveal patterns of behavior predicting high-school academic achievement. To that end, we used different types of pattern analysis and machine learning methods. 
-
-### Methods
-Inattention in a sample 2397 individuals were rated by their primary school teachers when they participated in the first wave of the Bergen Child Study (BCS) (7 - 9 years old), and their academic achievements were available from an official school register when attending high-school (16 - 19 years old). Inattention was assessed by the nine items rated at a categorical leve, and the academic achievement scores were divided into three parts including a similar number of participants. 
-
-### Results 
-Boys obtained higher inattention scores and lower academic scores than girls. Inattention problems related to sustained attention and distractibility turned out to have the highest predictive value of academic achievement level across all selected statistical analyses, and the full model showed that inattention explained about 10\% of the variance in high school scores about 10 years later. A high odds-ration of being allocated to the lowest academic achievement category was shown by a multinominal regression analysis, while a pattern of problems related to sustained attention and distractibility was revealed by generating classification trees. By including recursive learning algorithms, the most successful classification was found between these inattention items and the highest level of achievement scores. 
-
-### Summary 
-The present study showed the importance of a pattern of early problems related to sustained attention and distractibility in predicting future academic results. By including different statistical classification models we showed that this pattern was fairly consistent. Furthermore, calculation of classification errors gave information about the uncertainty when predicting the outcome for individual children. Further studies should include a wider range of variables. 
-
-
-
-
 <small>Organization of the data and the analysis:</small>
-
-Libraries being used:
-
-* memisc - spss.system.file()
-* psych  - headTail(), describe()
-* Hmisc - describe()
-* pander - pander(), panderOptions()
 
 <img src="../images/Data_to_classes_20160205_pptx.jpg" width="500px" height="500px" />
 
 ### Data preparation
 
-Input file:
-
- * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inatteion/data2)
- * inattention_nomiss_2397x12.csv
- 
-Output files (data):
-
- * inattention_nomiss_2397x12_snap_is_0_1_2.csv
- * inattention_nomiss_2397x12_snap_is_0_1.csv
- * inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv (Low, Medium, High academic score)
- * inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_0_1_2.csv (all numerical)
- * inattention_nomiss_2397x12_snap_is_N_S_C_outcome_is_L_M_H.csv (Not, Somewhat, Certainly true)
- 
-
-```{r, echo=TRUE, eval=TRUE} 
-fn <- "../data2/inattention_Arvid_new.sav"
-```
-
-```{r, echo=TRUE, eval=FALSE}
-# The original SPSS file as provided to AJL is
-# 'inattention_Astri_94_96_new_grades_updated.sav'
-# and being edited and reduced by AJL to 'inattention_Arvid_new.sav'
-# Import data stored in the SPSS format
-library(memisc)
-fn <- "../data2/inattention_Arvid_new.sav"
-data <- as.data.set(spss.system.file(fn))
-
-# Make new data frame from the sample with the variables 
-# gender, grade, SNAP1, ..., SNAP9 (vars #1-11) and
-# academic_achievement (var #52) 
-names(data)
-d <- data[, c(1:11, 52)]
-dim(d)
-names(d)
-str(d)
-summary(d)
-```
+Builds on processing in *~GitHub/inattention-population/code/inattention-populationsample-data-prep.Rmd*
 
 ```{r, echo=TRUE, eval=TRUE}
 D3 <- read.csv(file = "../data/inattention_nomiss_2397x12_snap_is_0_1_2.csv") 
@@ -364,7 +305,429 @@ library(rpart)
 draw.tree(clip.rpart(rpart(D), best=7), nodeinfo=TRUE, units="",cases="obs", digits=0)
 ```
 
+### Cross-validating a CART model
 
+library(rpart)
+library(cvTools)
+data(iris)
+cvFit(rpart, formula=Species~., data=iris,
+      cost=function(y, yHat) (y != yHat) + 0, predictArgs=c(type='class'))
+      
+
+#### Using the 'cvTools' package
+http://stackoverflow.com/questions/16717970/cross-validating-a-cart-model
+
+```{r, echo=TRUE, eval=FALSE}
+library(rpart)
+library(cvTools)
+library(psych)
+
+# Read and check the data
+C <- read.csv(file = "../data/inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv")
+str(C)
+headTail(C)
+
+# Estimate the prediction error of a model via (repeated) K-fold cross-validation. 
+# It is thereby possible to supply an object returned by a model fitting function, 
+# a model fitting function itself, or an unevaluated function call to a model fitting function.
+
+cvFit(rpart, formula=averBinned ~ ., data=C,
+             cost=function(y, yHat) (y != yHat) + 0,  K = 5, R = 10, predictArgs=c(type='class'))
+      
+#            cost=function(y, yHat) (y != yHat) + 0, predictArgs=c(type='class'))
+```
+
+#### A Multi-Class Summary Function
+https://github.com/rseiter/PracticalMLProject/blob/master/multiClassSummary.R
+https://github.com/topepo/caret/issues/107
+topepo added a commit that referenced this issue on Sep 8, 2015:
+
+```{r, echo=TRUE, eval=TRUE}
+# Multi-Class Summary Function
+# Based on caret:::twoClassSummary
+# From: http://moderntoolmaking.blogspot.com/2012/07/error-metrics-for-multi-class-problems.html
+
+multiClassSummary <- function (data, lev = NULL, model = NULL){
+
+  #Check data
+  if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) 
+    stop("levels of observed and predicted data do not match")
+
+  ## Overall multinomial loss
+  lloss <- mnLogLoss(data = data, lev = lev, model = model)
+
+  #Calculate custom one-vs-all ROC curves for each class
+  prob_stats <- lapply(levels(data[, "pred"]), 
+                       function(class){
+                         #Grab one-vs-all data for the class
+                         pred <- ifelse(data[, "pred"] == class, 1, 0)
+                         obs  <- ifelse(data[,  "obs"] == class, 1, 0)
+                         prob <- data[,class]
+
+                         #Calculate one-vs-all AUC
+                         prob_stats <- as.vector(auc(obs, prob))
+                         names(prob_stats) <- c('ROC')
+                         return(prob_stats) 
+                       })
+  roc_stats <- mean(unlist(prob_stats))
+
+  #Calculate confusion matrix-based statistics
+  CM <- confusionMatrix(data[, "pred"], data[, "obs"])
+
+  #Aggregate and average class-wise stats
+  #Todo: add weights
+  # RES: support two classes here as well
+  #browser() # Debug
+  if (length(levels(data[, "pred"])) == 2) {
+    class_stats <- c(CM$byClass, roc_vals)
+  } else {
+    class_stats <- colMeans(CM$byClass)
+    names(class_stats) <- paste("Mean", names(class_stats))
+  }
+
+  # Aggregate overall stats
+  overall_stats <- c(CM$overall, lloss, Mean_ROC = roc_stats)
+
+  # Combine overall with class-wise stats and remove some stats we don't want 
+  stats <- c(overall_stats, class_stats)
+  stats <- stats[! names(stats) %in% c('AccuracyNull', "AccuracyLower", "AccuracyUpper",
+                                       "AccuracyPValue", "McnemarPValue", 
+                                       'Mean Prevalence', 'Mean Detection Prevalence')]
+
+  # Clean names
+  names(stats) <- gsub('[[:blank:]]+', '_', names(stats))
+
+  if (length(levels(data[, "pred"]) == 2)) {
+    # Change name ordering to place most useful first
+    # May want to remove some of these eventually
+    stats <- stats[c("logLoss", "Mean_ROC", 
+                     "Mean_Sensitivity", "Mean_Specificity", "Accuracy", "Kappa", 
+                     "Mean_Pos_Pred_Value", "Mean_Neg_Pred_Value", "Mean_Detection_Rate",
+                     "Mean_Balanced_Accuracy")]
+  }
+
+  return(stats)
+}
+#})
+
+# RES: compare with
+
+# defaultSummary
+# function (data, lev = NULL, model = NULL) 
+# {
+#   if (is.character(data$obs)) 
+#     data$obs <- factor(data$obs, levels = lev)
+#   postResample(data[, "pred"], data[, "obs"])
+# }
+# <environment: namespace:caret>
+  
+# twoClassSummary
+# function (data, lev = NULL, model = NULL) 
+# {
+#   require(pROC)
+#   if (!all(levels(data[, "pred"]) == levels(data[, "obs"]))) 
+#     stop("levels of observed and predicted data do not match")
+#   rocObject <- try(pROC::roc(data$obs, data[, lev[1]]), silent = TRUE)
+#   rocAUC <- if (class(rocObject)[1] == "try-error") 
+#     NA
+#   else rocObject$auc
+#   out <- c(rocAUC, sensitivity(data[, "pred"], data[, "obs"], 
+#                                lev[1]), specificity(data[, "pred"], data[, "obs"], lev[2]))
+#   names(out) <- c("ROC", "Sens", "Spec")
+#   out
+# }
+# <environment: namespace:caret>
+  
+```
+
+```{r, echo=TRUE, eval=FALSE}
+# Testing multiClassSummary()
+
+library(AppliedPredictiveModeling)
+data(schedulingData)
+
+set.seed(1417)
+in_train <- createDataPartition(schedulingData$Class, p = 3/4, list = FALSE)
+
+training <- schedulingData[ in_train,]
+testing  <- schedulingData[-in_train,]
+
+mod <- train(Class ~ ., data = training, method = "rpart",
+             tuneLength = 10,
+             trControl = trainControl(classProbs = TRUE,
+                                      summaryFunction = multiClassSummary))
+
+test_pred <- predict(mod, testing, type = "prob")
+test_pred$obs <- testing$Class
+test_pred$pred <- predict(mod, testing)
+
+multiClassSummary(test_pred, lev = levels(test_pred$obs))
+```
+
+
+#### Using the 'caret' package
+
+CART:  method = 'rpart' or Ordinal Responses:  method = 'rpartScore'
+with a tuning parameter cp (Complexity Parameter).
+A model-specific variable importance metric is available.
+
+```{r, echo=TRUE, eval=FALSE}
+library(rpart)
+library(caret)
+library(psych)
+
+# Read and check the data
+C <- read.csv(file = "../data/inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv")
+str(C)
+headTail(C)
+
+# number controls with the number of folds in K-fold cross-validation ("cv")
+# tc <- trainControl(method = "cv", number = 10, classProbs = TRUE, summaryFunction = multiClassSummary)
+tc <- trainControl(method = "cv", number = 10, savePredictions = TRUE)
+rpart.grid <- expand.grid(.cp = c(0.2, 0.4))
+
+# train.rpart <- train(averBinned ~., data = C, method = "rpart", trControl = tc, tuneGrid = rpart.grid, metric = "ROC")
+
+train.rpart <- train(averBinned ~., data = C, method = "rpart", trControl = tc, tuneGrid = rpart.grid)
+print(train.rpart)
+```
+
+```{r, echo=TRUE, eval=TRUE}
+# plot(train.rpart)  
+ggplot(train.rpart) + theme_bw()
+```
+
+### mlr: Machine Learning in R
+https://www.rdocumentation.org/packages/mlr/versions/2.9?
+
+```{r, echo=TRUE, eval=TRUE}
+# http://stackoverflow.com/questions/36802846/how-to-tune-multiple-parameters-using-caret-package
+# http://mlr-org.github.io/mlr-tutorial/release/html/measures/index.html
+
+library(mlr)
+library(psych)
+
+# Read and check the data
+C <- read.csv(file = "../data/inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv")
+str(C)
+headTail(C)
+
+# Create a classification, regression, survival, cluster, cost-sensitive classification or multilabel task
+# https://rdrr.io/cran/mlr/man/Task.html
+# id - Id string for object. Default is the name of the R variable passed to data.
+# data - A data frame containing the features and target variable(s).
+# target - Name(s) of the target variable(s).
+rpart.task = classif.task = makeClassifTask(id = "inattention", data = C, target = "averBinned")
+
+
+# Create a description object for a resampling strategy
+# https://rdrr.io/cran/mlr/man/makeResampleDesc.html
+# method - “CV” for cross-validation, “LOO” for leave-one-out, “RepCV” for repeated cross-validation, 
+# “Bootstrap” for out-of-bag bootstrap, “Subsample” for subsampling, “Holdout” for holdout.
+# predict -  What to predict during resampling: “train”, “test” or “both” sets. Default is “test”.
+# iters - Number of iterations, for “CV”, “Subsample” and “Boostrap”.
+# reps - Repeats for “RepCV”. Here iters = folds * reps. Default is 10.
+# folds - Folds in the repeated CV for RepCV. Here iters = folds * reps. Default is 10.
+# stratify - Should stratification be done for the target variable? For classification tasks, 
+#   this means that the resampling strategy is applied to all classes individually and the resulting 
+#   index sets are joined to make sure that the proportion of observations in each training 
+#   set is as in the original data set. Useful for imbalanced class sizes.
+# We will use 10-fold cross-validation with 10 repetitions to assess the quality of a 
+# specific parameter setting. 
+resamp = makeResampleDesc("RepCV", predic = "test", folds = 10, reps = 10, stratify = TRUE)
+
+# Create learner object
+# https://rdrr.io/cran/mlr/man/makeLearner.html
+# cl - Class of learner. By convention, all classification learners start with “classif.”, 
+#   all regression learners with “regr.”, all survival learners start with “surv.”, 
+#   all clustering learners with “cluster.”, and all multilabel classification learners start with
+#   “multilabel.”. A list of all integrated learners is available on the learners help page.
+# predict.type - Classification: “response” (= labels) or “prob” (= probabilities and labels by 
+#   selecting the ones with maximal probability). Regression: “response” (= mean response) or 
+#   “se” (= standard errors and mean response). Survival: “response” (= some sort of orderable risk) 
+#   or “prob” (= time dependent probabilities). Clustering: “response” (= cluster IDS) or 
+#   “prob” (= fuzzy cluster membership probabilities), Multilabel: “response” (= logical matrix 
+#   indicating the predicted class labels) or “prob” (= probabilities and corresponding 
+#   logical matrix indicating class labels). Default is “response”.
+lrn = makeLearner("classif.rpart", predict.type = "response" )
+
+# Get a description of all possible parameter settings for a learner.
+# https://rdrr.io/cran/mlr/man/getParamSet.html
+# https://mlr-org.github.io/mlr-tutorial/release/html/learner/index.html
+# You can also check all the tunable params. The Learner object is a list and the following 
+# elements contain information regarding the hyperparameters and the type of prediction.
+getParamSet(lrn)
+
+# Nested Resampling
+# https://mlr-org.github.io/mlr-tutorial/release/html/nested_resampling/index.html
+makeFilterWrapper(lrn)
+
+
+# Training a Learner
+# Training a learner means fitting a model to a given data set. 
+# In mlr this can be done by calling function train on a Learner and a suitable Task.
+# Training a learner works the same way for every type of learning problem.
+# Function train returns an object of class WrappedModel, which encapsulates the fitted model, 
+# i.e., the output of the underlying R learning method.
+# Additionally, it contains some information about the Learner, the Task, the features and 
+# observations used for training, and the training time. 
+# A WrappedModel can subsequently be used to make a prediction for new observations.
+mod = train(lrn, rpart.task)
+
+## Peak into mod
+names(mod)
+mod$learner
+
+# Extract the fitted model ( mod$learner.model)
+getLearnerModel(mod)
+
+# Plot the fitted model
+plot(getLearnerModel(mod))
+
+pred = predict(mod, newdata = C)
+head(as.data.frame(pred))
+
+# In order to get predicted posterior probabilities we have to create a Learner 
+# with the appropriate predict.type.  
+lrn_prob = makeLearner("classif.rpart", predict.type = "prob")
+mod_prob = train(lrn_prob, rpart.task)
+pred_prob = predict(mod_prob, newdata = C)
+head(as.data.frame(pred_prob))
+
+# In addition to the probabilities, class labels are predicted by choosing the class with 
+# the maximum probability and breaking ties at random.
+# The predicted posterior probabilities can be accessed via the getPredictionProbabilities function.
+head(getPredictionProbabilities(pred_prob))
+
+# Confusion matrix
+# https://www.rdocumentation.org/packages/mlr/versions/2.9/topics/getConfMatrix
+# Calculates confusion matrix for (possibly resampled) prediction. 
+# Rows indicate true classes, columns predicted classes. The marginal elements count the 
+# number of classification errors for the respective row or column, i.e., the number of 
+# errors when you condition on the corresponding true (rows) or predicted (columns) class. 
+# The last element in the margin diagonal displays the total amount of errors. 
+# Note that for resampling no further aggregation is currently performed. 
+# All predictions on all test sets are joined to a vector yhat, as are all labels 
+# joined to a vector y. Then yhat is simply tabulated vs y, as if both were computed 
+# on a single test set. This probably mainly makes sense when cross-validation is used for resampling.
+print(getConfMatrix(pred, relative = FALSE))
+print(getConfMatrix(pred, relative = TRUE))
+
+# Feature Selection
+# Often, data sets include a large number of features. The technique of extracting a subset of 
+# relevant features is called feature selection. Feature selection can enhance the 
+# interpretability of the model, speed up the learning process and improve the learner performance. 
+# There exist different approaches to identify the relevant features. mlr supports filter 
+# and wrapper methods.
+
+# Calculates feature filter values.
+# https://rdrr.io/cran/mlr/man/generateFilterValuesData.html
+# Calculates numerical filter values for features. For a list of features, use listFilterMethods.
+# fv = generateFilterValuesData(rpart.task, method = "cforest.importance")
+fv = generateFilterValuesData(rpart.task, method = "rf.importance")
+print(fv)
+print(fv$data)
+# plotFilterValuesGGVIS(fv)
+plotFilterValues(fv)
+getFilteredFeatures(fv)
+
+# Create control structures for tuning
+# https://rdrr.io/cran/mlr/man/TuneControl.html
+# makeTuneControlGrid - Grid search. All kinds of parameter types can be handled. 
+#   You can either use their correct param type and resolution, or discretize them yourself by 
+#   always using makeDiscreteParam in the par.set passed to tuneParams.
+# same.resampling.instance - Should the same resampling instance be used for all evaluations to 
+#   reduce variance? Default is TRUE.
+# resolution - Resolution of the grid for each numeric/integer parameter in par.set. 
+#   For vector parameters, it is the resolution per dimension. Either pass one resolution for all 
+#   parameters, or a named vector. You can pass resolution = N if you want the algorithm to 
+#   select N tune params given upper and lower bounds to a NumericParam
+#   instead of a discrete one. Default is 10.
+control.grid = makeTuneControlGrid(same.resampling.instance = TRUE, resolution = 10) 
+
+# Tuning Hyperparameters
+# https://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html
+# Many machine learning algorithms have hyperparameters that need to be set. 
+# If selected by the user they can be specified as explained on the tutorial page on Learners 
+# -- simply pass them to makeLearner. Often suitable parameter values are not obvious and it is 
+# preferable to tune the hyperparameters, that is automatically identify values that lead to 
+# the best performance.
+# We first must define a space to search when tuning our learner. 
+# For example, maybe we want to tune several specific values of a hyperparameter or perhaps we 
+# want to define a space from 10^{−10} to 10^{10} and let the optimization algorithm decide 
+# which points to choose. In order to define a search space, we create a ParamSet object, 
+# which describes the parameter space we wish to search. This is done via the function makeParamSet.
+# https://www.rdocumentation.org/packages/ParamHelpers/versions/1.1-36/topics/makeParamSet?
+# Multiple sets can be concatenated with c
+# Create A Description Object For A Parameter, e.g.
+# makeDiscreteParam(id, values, requires = NULL)
+# id - Name of parameter
+# values - Possible discrete values. Instead of using a vector of atomic values, you are also 
+#   allowed to pass a list of quite complex R objects, which are used as discrete choices. 
+ps = makeParamSet(
+  makeDiscreteParam("cp", values = seq(0,0.4,0.1)),
+  makeDiscreteParam("minsplit", values = c(10,20))
+)
+print(ps)
+
+# Hyperparameter Tuning.
+# https://www.rdocumentation.org/packages/mlr/versions/2.9/topics/tuneParams?
+# Optimizes the hyperparameters of a learner. Allows for different optimization methods, 
+# such as grid search, evolutionary strategies, iterated F-race, etc. 
+# You can select such an algorithm (and its settings) by passing a corresponding control object. 
+# tuneParams simply performs the cross-validation for every element of the cross-product and 
+# selects the parameter setting with the best mean performance. 
+# If no performance measure is specified, by default the error rate (mmce) is used.
+# You can pass other measures and also a list of measures to tuneParams. 
+# In the latter case the first measure is optimized during tuning, the others are simply evaluated. 
+# If you are interested in optimizing several measures simultaneously have a look at Advanced Tuning.
+# The actual tuning, with accuracy as evaluation metric
+# tuneParams(learner, task, resampling, measures, par.set, control, show.info = getMlrOption("show.info"))
+# learner - The learner. If you pass a string the learner will be created via makeLearner
+# task - The task
+# resampling - Resampling strategy to evaluate points in hyperparameter space. 
+#   If you pass a description, it is instantiated once at the beginning by default, 
+#   so all points are evaluated on the same training/test sets. If you want to change that behavior, 
+#   look at TuneControl
+# measures - Performance measures to evaluate. The first measure, aggregated by the first 
+#   aggregation function is optimized, others are simply evaluated. 
+#   Default is the default measure for the task, see getDefaultMeasure.
+# par.set - Collection of parameters and their constraints for optimization. 
+#   Dependent parameters with a requires field must use quote and not expression to define it.
+# control -  Control object for search method. Also selects the optimization algorithm for tuning.
+# show.info -  Print verbose output on console? Default is set via configureMlr
+res = tuneParams(lrn, task = rpart.task, resampling = resamp, measures = list(acc,timetrain),
+                 par.set = ps, control = control.grid, show.info = TRUE)
+
+print(res)
+print(as.data.frame(res$opt.path))
+
+# https://mlr-org.github.io/mlr-tutorial/devel/html/hyperpar_tuning_effects/index.html
+names(res)
+print(c(res$x$cp, res$x$minsplit))
+print(res$y)
+
+# Investigating hyperparameter tuning effects
+# https://www.rdocumentation.org/packages/mlr/versions/2.9/topics/generateHyperParsEffectData?
+generateHyperParsEffectData(res, include.diagnostics = TRUE)
+```
+
+
+
+```{r, echo=TRUE, eval=FALSE}
+# Classification
+frmla = averBinned ~ gender + grade + snap1 + snap2 + snap3 + 
+    snap4 + snap5 + snap6 + snap7 + snap8 + snap9
+fit.cla <- ctree(frmla, data=D)
+print(fit.cla)
+plot(fit.cla)
+class(fit.cla)  # class type 
+#Table of prediction errors
+table(predict(fit.cla), D$averBinned)
+# Estimated class probabilities
+tr.pred = predict(fit.cla, newdata=D, type="prob")
+print(head(tr.pred))
+```
 
 <!-- regular html comment 
 
