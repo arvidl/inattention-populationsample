@@ -5,7 +5,7 @@ output: html_notebook
 ---
 
 ```{r, echo=TRUE, eval=FALSE}
-~GitHub/inattention-population/code/inattention-rf-mlr.Rmd
+# ~GitHub/inattention-population/code/inattention-rf-mlr.Rmd
 ```
 
 <small>
@@ -59,15 +59,24 @@ knitr::kable(tab, digits = 2, caption = 'Summary C')
 
 Random forests are very good in that it is an ensemble learning method used for classification and regression.  It uses multiple models for better performance that just using a single tree model.  In addition because many sample are selected in the process a measure of variable importance can be obtain and this approach can be used for model selection and can be particularly useful when forward/backward stepwise selection is not appropriate and when working with an extremely high number of candidate variables that need to be reduced.
 
+randomForest - implements Breiman’s random forest algorithm (based on Breiman and Cutler’s original Fortran code) for classification and regression. It can also be used in unsupervised mode for assessing proximities among data points.
     
 ```{r, echo=TRUE, eval=TRUE}
 library(randomForest)
-C$averBinnedC = as.factor(C$averBinned)  # To perform clasification and not regression
-C <- subset(C, select = -c(averBinned))
+
+set.seed(1)
+CC <- C
+CC$averBinnedC = as.factor(CC$averBinned)  # To perform clasification and not regression
+CC <- subset(CC, select = -c(averBinned))
 frmla = averBinnedC ~ gender + grade + snap1 + snap2 + snap3 + 
     snap4 + snap5 + snap6 + snap7 + snap8 + snap9
-fit.Crf = randomForest(frmla, data=C)
+fit.Crf = randomForest(frmla, data=CC, importance = TRUE)
 print(fit.Crf)
+# plot(fit.Crf)
+print(round(importance(fit.Crf), 2))
+```
+
+```{r, echo=TRUE, eval=TRUE}
 plot(fit.Crf)
 ```
 
@@ -88,13 +97,26 @@ where $K$ is the number of classes, $k$ is which.class, and $p_j$ is the proport
 
 
 
-
-
 ```{r, echo=TRUE, eval=TRUE}
-importance(fit.Crf)
-plot(importance(fit.Crf), lty=2, pch=16)
-lines(importance(fit.Crf))
-varImpPlot(fit.Crf)
+round(importance(fit.Crf), 2)
+#plot(importance(fit.Crf), lty=2, pch=16)
+#lines(importance(fit.Crf))
+```
+```{r, echo=TRUE, eval=TRUE}
+# Dotchart of variable importance as measured by a Random Forest
+# varImpPlot(x, sort=TRUE, n.var=min(30, nrow(x$importance)), type=NULL, class=NULL, 
+# scale=TRUE, main=deparse(substitute(x)), ...)
+varImpPlot(fit.Crf, class = TRUE, main="RF - variable importance")
+```
+```{r, echo=TRUE, eval=TRUE}
+# Find out which predictor variables are actually used in the random forest.
+# If count=TRUE and by.tree=FALSE, a integer vector containing frequencies that 
+# variables are used in the forest.
+frmla
+varUsed(fit.Crf, by.tree=FALSE, count=TRUE)
+# Size of trees (number of nodes) in and ensemble.
+# i.e. a vector containing number of nodes for the trees in the randomForest object.
+hist(treesize(fit.Crf, terminal=FALSE))
 ```
 
 
@@ -125,7 +147,7 @@ Regression models:
 
 
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=FALSE}
 library(CORElearn)
 ## Random Forests
 frmla = averBinnedC ~ gender + grade + snap1 + snap2 + snap3 + 
@@ -143,6 +165,10 @@ plot(fit.C.rand.forest)
 ### mlr: Machine Learning in R
 https://www.rdocumentation.org/packages/mlr/versions/2.9?
 
+Nice intro with examples:
+https://www.analyticsvidhya.com/blog/2016/08/practicing-machine-learning-techniques-in-r-with-mlr-package/
+
+
 ```{r, echo=TRUE, eval=TRUE}
 # http://stackoverflow.com/questions/36802846/how-to-tune-multiple-parameters-using-caret-package
 # http://mlr-org.github.io/mlr-tutorial/release/html/measures/index.html
@@ -152,17 +178,49 @@ library(psych)
 
 # Read and check the data
 C <- read.csv(file = "../data/inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv")
+D <- read.csv(file = "../data/inattention_nomiss_2397x12_snap_is_N_S_C_outcome_is_L_M_H.csv")
 str(C)
 headTail(C)
+summarizeColumns(C)
+summary(D)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Create a classification, regression, survival, cluster, cost-sensitive classification or multilabel task
 # https://rdrr.io/cran/mlr/man/Task.html
 # id - Id string for object. Default is the name of the R variable passed to data.
 # data - A data frame containing the features and target variable(s).
 # target - Name(s) of the target variable(s).
-rpart.task = classif.task = makeClassifTask(id = "inattention", data = C, target = "averBinned")
+rfD.task = classif.task = makeClassifTask(id = "inattentionD.rf", data = D, target = "averBinned")
+print(rfD.task)
+str(getTaskData(rfD.task))
+```
+
+```{r, echo=TRUE, eval=FALSE}
+# library(FSelector)
+# https://www.i2m.univ-amu.fr/support/doku.php?id=rweka
+# install.packages('rJava', type='source')
+# dyn.load('/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib/server/libjvm.dylib')
+# source("http://bioconductor.org/biocLite.R")
+# biocLite("RWeka")
+# library(RWeka)
+# system("java -version")
+
+# Feature importance
+# MLR package has an in built function which returns the important variables from data. 
+# Let’s see which variables are important. Later, we can use this knowledge to subset out 
+# input predictors for model improvement. 
+# While running this code, R might prompt you to install ‘FSelector’ package, which you should do.
+
+# Error in .jnew("weka/core/Attribute", attname[i], .jcast(levels, "java/util/List")) : 
+# java.lang.UnsupportedClassVersionError: weka/core/Attribute : Unsupported major.minor version 51.0
+# imp_feat <- generateFilterValuesData(rfD.task, method = c("information.gain","chi.squared"))
+imp_feat <- generateFilterValuesData(rfD.task,  method = "rf.importance")  # "rf.importance")
+plotFilterValues(imp_feat,n.show = 20)
+```
 
 
+```{r, echo=TRUE, eval=TRUE}
 # Create a description object for a resampling strategy
 # https://rdrr.io/cran/mlr/man/makeResampleDesc.html
 # method - “CV” for cross-validation, “LOO” for leave-one-out, “RepCV” for repeated cross-validation, 
@@ -178,7 +236,10 @@ rpart.task = classif.task = makeClassifTask(id = "inattention", data = C, target
 # We will use 10-fold cross-validation with 10 repetitions to assess the quality of a 
 # specific parameter setting. 
 resamp = makeResampleDesc("RepCV", predic = "test", folds = 10, reps = 10, stratify = TRUE)
+print(resamp)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Create learner object
 # https://rdrr.io/cran/mlr/man/makeLearner.html
 # cl - Class of learner. By convention, all classification learners start with “classif.”, 
@@ -192,20 +253,26 @@ resamp = makeResampleDesc("RepCV", predic = "test", folds = 10, reps = 10, strat
 #   “prob” (= fuzzy cluster membership probabilities), Multilabel: “response” (= logical matrix 
 #   indicating the predicted class labels) or “prob” (= probabilities and corresponding 
 #   logical matrix indicating class labels). Default is “response”.
-lrn = makeLearner("classif.rpart", predict.type = "response" )
+lrn = makeLearner("classif.randomForest", predict.type = "response")
+print(lrn)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Get a description of all possible parameter settings for a learner.
 # https://rdrr.io/cran/mlr/man/getParamSet.html
 # https://mlr-org.github.io/mlr-tutorial/release/html/learner/index.html
 # You can also check all the tunable params. The Learner object is a list and the following 
 # elements contain information regarding the hyperparameters and the type of prediction.
 getParamSet(lrn)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Nested Resampling
 # https://mlr-org.github.io/mlr-tutorial/release/html/nested_resampling/index.html
 makeFilterWrapper(lrn)
+```
 
-
+```{r, echo=TRUE, eval=TRUE}
 # Training a Learner
 # Training a learner means fitting a model to a given data set. 
 # In mlr this can be done by calling function train on a Learner and a suitable Task.
@@ -215,33 +282,47 @@ makeFilterWrapper(lrn)
 # Additionally, it contains some information about the Learner, the Task, the features and 
 # observations used for training, and the training time. 
 # A WrappedModel can subsequently be used to make a prediction for new observations.
-mod = train(lrn, rpart.task)
+mod = train(lrn, rfD.task)
+print(mod)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 ## Peak into mod
 names(mod)
 mod$learner
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Extract the fitted model ( mod$learner.model)
 getLearnerModel(mod)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Plot the fitted model
 plot(getLearnerModel(mod))
 
-pred = predict(mod, newdata = C)
+pred = predict(mod, newdata = D)
 head(as.data.frame(pred))
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # In order to get predicted posterior probabilities we have to create a Learner 
 # with the appropriate predict.type.  
-lrn_prob = makeLearner("classif.rpart", predict.type = "prob")
-mod_prob = train(lrn_prob, rpart.task)
-pred_prob = predict(mod_prob, newdata = C)
+lrn_prob = makeLearner("classif.randomForest", predict.type = "prob")
+mod_prob = train(lrn_prob, rfD.task)
+pred_prob = predict(mod_prob, newdata = D)
 head(as.data.frame(pred_prob))
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # In addition to the probabilities, class labels are predicted by choosing the class with 
 # the maximum probability and breaking ties at random.
 # The predicted posterior probabilities can be accessed via the getPredictionProbabilities function.
 head(getPredictionProbabilities(pred_prob))
+```
 
+
+```{r, echo=TRUE, eval=TRUE}
 # Confusion matrix
 # https://www.rdocumentation.org/packages/mlr/versions/2.9/topics/getConfMatrix
 # Calculates confusion matrix for (possibly resampled) prediction. 
@@ -255,7 +336,10 @@ head(getPredictionProbabilities(pred_prob))
 # on a single test set. This probably mainly makes sense when cross-validation is used for resampling.
 print(getConfMatrix(pred, relative = FALSE))
 print(getConfMatrix(pred, relative = TRUE))
+```
 
+
+```{r, echo=TRUE, eval=TRUE}
 # Feature Selection
 # Often, data sets include a large number of features. The technique of extracting a subset of 
 # relevant features is called feature selection. Feature selection can enhance the 
@@ -267,13 +351,15 @@ print(getConfMatrix(pred, relative = TRUE))
 # https://rdrr.io/cran/mlr/man/generateFilterValuesData.html
 # Calculates numerical filter values for features. For a list of features, use listFilterMethods.
 # fv = generateFilterValuesData(rpart.task, method = "cforest.importance")
-fv = generateFilterValuesData(rpart.task, method = "rf.importance")
+fv = generateFilterValuesData(rfD.task, method = "rf.importance")
 print(fv)
 print(fv$data)
 # plotFilterValuesGGVIS(fv)
 plotFilterValues(fv)
 getFilteredFeatures(fv)
+```
 
+```{r, echo=TRUE, eval=TRUE}
 # Create control structures for tuning
 # https://rdrr.io/cran/mlr/man/TuneControl.html
 # makeTuneControlGrid - Grid search. All kinds of parameter types can be handled. 
@@ -287,7 +373,10 @@ getFilteredFeatures(fv)
 #   select N tune params given upper and lower bounds to a NumericParam
 #   instead of a discrete one. Default is 10.
 control.grid = makeTuneControlGrid(same.resampling.instance = TRUE, resolution = 10) 
+```
 
+
+```{r, echo=TRUE, eval=TRUE}
 # Tuning Hyperparameters
 # https://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html
 # Many machine learning algorithms have hyperparameters that need to be set. 
@@ -307,20 +396,40 @@ control.grid = makeTuneControlGrid(same.resampling.instance = TRUE, resolution =
 # id - Name of parameter
 # values - Possible discrete values. Instead of using a vector of atomic values, you are also 
 #   allowed to pass a list of quite complex R objects, which are used as discrete choices. 
-# In rpart:
-# minsplit - the minimum number of observations that must exist in a node in order for a split to be attempted
-# cp - complexity parameter. Any split that does not decrease the overall lack of fit by a factor 
-#   of cp is not attempted. For instance, with anova splitting, this means that the overall R-squared 
-#   must increase by cp at each step. The main role of this parameter is to save computing time by 
-#   pruning off splits that are obviously not worthwhile. Essentially,the user informs the program 
-#   that any split which does not improve the fit by cp will likely be pruned off by cross-validation, 
-#   and that hence the program need not pursue it.
-ps = makeParamSet(
-  makeDiscreteParam("cp", values = seq(0,0.2,0.1)),
-  makeDiscreteParam("minsplit", values = c(30,40,50))
+# In randomForest:
+# ntree - yyyy
+# mtry - 
+# nodesize -
+#
+# set tunable parameters
+# grid search to find hyperparameters
+rf_param <- makeParamSet(
+  makeIntegerParam("ntree",lower = 500, upper = 500),
+  makeIntegerParam("mtry", lower = 9, upper = 10),
+  makeIntegerParam("nodesize", lower = 50, upper = 50)
 )
-print(ps)
+print(rf_param)
+```
+```{r, echo=TRUE, eval=TRUE}
+# Perform random search for 50 iterations
+# Though, random search is faster than grid search, but sometimes it turns out to be 
+# less efficient. In grid search, the algorithm tunes over every possible combination 
+# of parameters provided. In a random search, we specify the number of iterations 
+# and it randomly passes over the parameter combinations. 
+# In this process, it might miss out some important combination of parameters 
+# which could have returned maximum accuracy, who knows.
+rancontrol <- makeTuneControlRandom(maxit = 50L)
+print(rancontrol)
+```
 
+```{r, echo=TRUE, eval=TRUE}
+# Set 3 fold cross validation
+set_cv <- makeResampleDesc("CV",iters = 3L)
+print(set_cv)
+```
+
+
+```{r, echo=TRUE, eval=TRUE}
 # Hyperparameter Tuning.
 # https://www.rdocumentation.org/packages/mlr/versions/2.9/topics/tuneParams?
 # Optimizes the hyperparameters of a learner. Allows for different optimization methods, 
@@ -347,17 +456,20 @@ print(ps)
 #   Dependent parameters with a requires field must use quote and not expression to define it.
 # control -  Control object for search method. Also selects the optimization algorithm for tuning.
 # show.info -  Print verbose output on console? Default is set via configureMlr
-res = tuneParams(lrn, task = rpart.task, resampling = resamp, measures = list(acc,timetrain),
-                 par.set = ps, control = control.grid, show.info = TRUE)
+res = tuneParams(lrn, task = rfD.task, resampling = resamp, measures = list(acc,timetrain),
+                 par.set = rf_param, control = control.grid, show.info = TRUE)
 
 print(res)
 print(as.data.frame(res$opt.path))
 
 # https://mlr-org.github.io/mlr-tutorial/devel/html/hyperpar_tuning_effects/index.html
 names(res)
-print(c(res$x$cp, res$x$minsplit))
+print(c(res$x$ntree, res$x$mtry, res$x$nodesize))
 print(res$y)
+```
 
+
+```{r, echo=TRUE, eval=TRUE}
 # Investigating hyperparameter tuning effects
 # https://www.rdocumentation.org/packages/mlr/versions/2.9/topics/generateHyperParsEffectData?
 generateHyperParsEffectData(res, include.diagnostics = TRUE)
