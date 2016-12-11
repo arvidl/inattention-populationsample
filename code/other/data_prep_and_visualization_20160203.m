@@ -15,6 +15,8 @@ NEW_ANALYSES = 1;
 SUMMARY = 0;
 FITENSEMBLE = 0;
 
+% import matplotlib.pyplot as plt
+% plt.savefig()
 
 %% Read the data
 
