@@ -50,11 +50,20 @@ Output files (data):
 # Import data stored in the SPSS format
 library(memisc)
 # fn <- "../data/inattention_Arvid_new.sav"
-fn <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Arvid_new.sav"
+
+# Mac OS X
+#fn <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Arvid_new.sav"
+# Mac Ubuntu
+fn <- "/media/psf/Dropbox/Arvid_inattention/data2/inattention_Arvid_new.sav"
+
 data <- as.data.set(spss.system.file(fn))
 
 library(foreign)
-fn_age <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Astri_94_96_new_grades_updated.sav"
+# Mac OS X
+#fn_age <- "/Users/arvid/Dropbox/Arvid_inattention/data2/inattention_Astri_94_96_new_grades_updated.sav"
+# Mac Ubuntu
+fn_age <- "/media/psf/Dropbox/Arvid_inattention/data2/inattention_Astri_94_96_new_grades_updated.sav"
+
 Sys.getlocale()
 #Sys.setlocale(locale="C")
 data_age <- read.spss(fn_age, to.data.frame=TRUE, use.value.labels=FALSE)
