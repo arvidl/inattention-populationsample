@@ -1,0 +1,1001 @@
+% Template for PLoS
+% Version 3.4 January 2017
+%
+% % % % % % % % % % % % % % % % % % % % % %
+%
+% -- IMPORTANT NOTE
+%
+% This template contains comments intended 
+% to minimize problems and delays during our production 
+% process. Please follow the template instructions
+% whenever possible.
+%
+% % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Once your paper is accepted for publication, 
+% PLEASE REMOVE ALL TRACKED CHANGES in this file 
+% and leave only the final text of your manuscript. 
+% PLOS recommends the use of latexdiff to track changes during review, as this will help to maintain a clean tex file.
+% Visit https://www.ctan.org/pkg/latexdiff?lang=en for info or contact us at latex@plos.org.
+%
+%
+% There are no restrictions on package use within the LaTeX files except that 
+% no packages listed in the template may be deleted.
+%
+% Please do not include colors or graphics in the text.
+%
+% The manuscript LaTeX source should be contained within a single file (do not use \input, \externaldocument, or similar commands).
+%
+% % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- FIGURES AND TABLES
+%
+% Please include tables/figure captions directly after the paragraph where they are first cited in the text.
+%
+% DO NOT INCLUDE GRAPHICS IN YOUR MANUSCRIPT
+% - Figures should be uploaded separately from your manuscript file. 
+% - Figures generated using LaTeX should be extracted and removed from the PDF before submission. 
+% - Figures containing multiple panels/subfigures must be combined into one image file before submission.
+% For figure citations, please use "Fig" instead of "Figure".
+% See http://journals.plos.org/plosone/s/figures for PLOS figure guidelines.
+%
+% Tables should be cell-based and may not contain:
+% - spacing/line breaks within cells to alter layout or alignment
+% - do not nest tabular environments (no tabular environments within tabular environments)
+% - no graphics or colored text (cell background color/shading OK)
+% See http://journals.plos.org/plosone/s/tables for table guidelines.
+%
+% For tables that exceed the width of the text column, use the adjustwidth environment as illustrated in the example table in text below.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- EQUATIONS, MATH SYMBOLS, SUBSCRIPTS, AND SUPERSCRIPTS
+%
+% IMPORTANT
+% Below are a few tips to help format your equations and other special characters according to our specifications. For more tips to help reduce the possibility of formatting errors during conversion, please see our LaTeX guidelines at http://journals.plos.org/plosone/s/latex
+%
+% For inline equations, please be sure to include all portions of an equation in the math environment.  For example, x$^2$ is incorrect; this should be formatted as $x^2$ (or $\mathrm{x}^2$ if the romanized font is desired).
+%
+% Do not include text that is not math in the math environment. For example, CO2 should be written as CO\textsubscript{2} instead of CO$_2$.
+%
+% Please add line breaks to long display equations when possible in order to fit size of the column. 
+%
+% For inline equations, please do not include punctuation (commas, etc) within the math environment unless this is part of the equation.
+%
+% When adding superscript or subscripts outside of brackets/braces, please group using {}.  For example, change "[U(D,E,\gamma)]^2" to "{[U(D,E,\gamma)]}^2". 
+%
+% Do not use \cal for caligraphic font.  Instead, use \mathcal{}
+%
+% % % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Please contact latex@plos.org with any questions.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+
+% Use adjustwidth environment to exceed column width (see example table in text)
+\usepackage{changepage}
+
+% Use Unicode characters when possible
+\usepackage[utf8x]{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% color can be used to apply background shading to table cells only
+\usepackage[table]{xcolor}
+
+% array package and thick rules for tables
+\usepackage{array}
+%Ad hoc for Table H
+\usepackage{float}
+
+\usepackage{xcolor}
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\vskip\arrayrulewidth}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+\hline
+\noalign{\global\arrayrulewidth\savedwidth}}
+
+
+% Remove comment for double spacing
+%\usepackage{setspace} 
+%\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in 
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{27.023pt}
+\lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+\lfoot{\sf PLOS}
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+
+\usepackage{booktabs}
+
+%% END MACROS SECTION
+
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{Inattention in primary school is not good for your future school achievement - a pattern classification study} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+}
+\newline
+% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
+
+Astri J. Lundervold\textsuperscript{1,2*},
+Tormod B\o{}e\textsuperscript{3},
+Arvid Lundervold\textsuperscript{4}
+
+
+\bigskip
+\textbf{1} Department of Biological and Medical Psychology University of Bergen, 5009 Bergen, Norway
+\\
+\textbf{2} K.G. Jebsen Center for Research on Neuropsychiatric Disorders, University of Bergen, Bergen, Norway\\
+\textbf{3} Regional Centre for Child and Youth Mental Health and Child Welfare, Uni Research Health, Bergen, Norway\\
+\textbf{4} Neuroinformatics and Image Analysis Laboratory, Department of Biomedicine, University of Bergen
+\\
+\bigskip
+
+% Insert additional author notes using the symbols described below. Insert symbol callouts after author names as necessary.
+% 
+% Remove or comment out the author notes below if they aren't used.
+%
+% Primary Equal Contribution Note
+%\Yinyang These authors contributed equally to this work.
+
+% Additional Equal Contribution Note
+% Also use this double-dagger symbol for special authorship notes, such as senior authorship.
+%\ddag These authors also contributed equally to this work.
+
+% Current address notes
+%\textcurrency Current Address: Dept/Program/Center, Institution Name, City, State, Country % change symbol to "\textcurrency a" if more than one current address note
+% \textcurrency b Insert second current address 
+% \textcurrency c Insert third current address
+
+% Deceased author note
+%\dag Deceased
+
+% Group/Consortium Author Note
+%\textpilcrow Membership list can be found in the Acknowledgments section.
+
+% Use the asterisk to denote corresponding authorship and provide email address in note below.
+* Corresponding author: astri.lundervold@uib.no
+
+\end{flushleft}
+% Please keep the abstract below 300 words
+\section*{Abstract}
+\noindent \emph{Objective.}
+Inattention in childhood has been associated with academic problems later in life. The contribution of specific aspects of inattentive behaviour is, however, less known. We investigated the importance of primary school teachers' reports on nine aspects of inattentive behaviour in predicting future academic achievement. 
+
+\noindent \emph{Methods.} Primary school teachers of 2397 children (7 - 9 years) rated nine items reflecting different aspects of inattentive behaviour in 2002. \colorbox{yellow}{A mean academic achievement score at high-school was available for each youth} from an official school register. All scores were at a categorical level. Two multivariate statistical methods (in R), a multinominal logistic regression analysis,  a \colorbox{yellow}{classification and regression trees and a random forest analysis} were included to investigate 
+the importance  of the nine inattention items, gender and their primary school class level (grade) to predict academic achievement scores in high-school. \colorbox{yellow}{Classification error was estimated using the ....}.
+
+\noindent \emph{Results.}
+Problems related to sustained attention and distractibility were found to be \colorbox{yellow}{the most important} predictors of low level of academic achievement in high school. Overall, inattention was rated as more severe in boys, who also obtained lower achievement scores at high school than girls. However, if reported to have no problems related to sustained attention and distractibility in the 4$^{\text{th}}$ primary school class level, the percentage of boys with the highest level of the achievement score was as high as in girls ($>$ 40\%). 
+
+\noindent \emph{Conclusion} 
+Primary school teachers' reports of problems related to sustained attention and distractibility were \colorbox{yellow}{important} predictors of low academic achievement in high school.  Identification and follow-up procedures of primary school children showing this pattern of inattentive behaviour should be prioritised to prevent future \colorbox{yellow}{academic failure}. %}
+
+
+% Please keep the Author Summary between 150 and 200 words
+% Use first person. PLOS ONE authors please skip this step. 
+% Author Summary not valid for PLOS ONE submissions.   
+%\section*{Author summary}
+%Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id. Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.
+
+\linenumbers
+
+% Use "Eq" instead of "Equation" for equation citations.
+\section*{Introduction}
+Inattention in early childhood has been linked to a wide range of behavioural and social problems \cite{Bellanti2000, Connors2012},  including poor academic achievement. This has been shown in several studies of individuals with Attention Deficit Hyperactivity disorder 
+(ADHD, see e.g. \cite{Lee2006, Owens2017}), but is also widely documented in studies including community samples \cite{Polderman2010, Metcalfe2013, Pingault2014, Garner2013, Holmberg2014, Gray2014, Salla2016}.  In most of these studies, inattention is defined as a sum score across a set of items.
+
+Inattention is, however, a multidimensional concept,  where the items 
+reflect impairment of sustained and focused attention, impaired working memory, distractibility, forgetfulness, as well as impaired ability to organise and plan activities and tasks. These aspects of inattention have been described as independent at a biological level  \cite{Berry2014}, but may be extremely difficult to disentangle behaviourally. They rather tend to occur as patterns of behaviour. For example, most children may be distracted by external stimuli in a classroom situation \cite{Rescorla2007}, and these distractions will probably be especially hard to handle by a child having problems in maintaining attention and engagement in a task. Thus, it may not be the total inattention score, but rather specific patterns of inattentive behaviour that have the most detrimental effect on the child's present and future function at school. Identification of important features of inattentive behaviour will therefore be of great importance when developing remediation procedures. 
+
+Primary school teachers' skills are crucial in the work to detect and help a child struggling with inattention. They observe their pupils on a regular basis and in a wide range of situations were inattention tends to have negative effects on performance. At the same time, one should be aware of the risk of biases. Primary school teachers may for example be more tolerant to the behaviour of a child in the lowest class levels, and previous studies have shown that teachers tend to rate girls as less impaired than boys, even when the girls exhibit problematic behaviour in the classroom \cite{Becker2013, Bussing2003c, Ohan2009}. The child's gender and age should therefore be taken into account when evaluating teacher ratings of inattentive behaviour. \\
+
+The aim of the present study was to further investigate the importance of primary school teachers reports of inattentive behaviour. To that end, we included data from the Bergen Child Study, where primary school teachers completed a questionnaire including nine items reflecting different aspects of inattentive behaviour when the children were between 7 and 9 years old. About ten years later, when the children had become high school students, academic achievement scores from the official school registry of Norway were available for 2397 of the children from the original sample. \colorbox{yellow}{Described as a key determinant of later vocational career success} \colorbox{yellow}{and adultfinancial stability \cite{Fried2016}, identification of predictors ofacademic success} \colorbox{yellow}{should be of great importance.} Each of the nine inattention items were rated on a Likert scale with three response alternatives, and the outcome variable, academic achievement, was discretised into three intervals, including an almost equal number of participants in each category.  Teacher scores on each of the nine items were used as predictors together with gender and primary school class level (a proxy for age) to answer the following questions: ({\bf1}) which features of inattentive behaviour in primary school represent the strongest predictors of academic achievement in high school? ({\bf 2}) are there specific patterns of associations between these predictor variables?, and ({\bf3}) are gender and the age of the child when evaluated by their primary school teachers of importance to the prediction?  \\ 
+
+In this context, \colorbox{yellow}{three} statistical approaches were selected according to the following criteria: ({\bf i}) the methods must handle multiple predictors with a small set of response alternatives, and with a small set of outcome categories; ({\bf ii}) the methods should be generic and of interest to other similar data analysis situations  
+and prediction challenges  occurring in the behavioural sciences, and ({\bf iii}) the methods should produce results that are easy to interpret at a clinical level. 
+Based on these criteria we selected the following statistical methods: {\em multinomial logistic regression} (MLR), {\em classification and regression trees} (CART), and \colorbox{yellow}{{\em random forest classifier} (RF)} \colorbox{yellow}{within a {\em cross-validation framework}}. 
+The CART and the RF are multivariate analysis method belonging to the class of recursive partitioning algorithms. 
+These methods have recently become a valuable tool for 
+exploring complex datasets in psychology where the algorithms generate decision trees that aims to correctly classify members of a sample. This is obtained by splitting 
+them into subsamples based on several binary decisions operating hierarchically on the values of the independent predictor variables. These decisions
+are easy to interpret and visualise. Together they reveal class predictive patterns of the independent variables in the sample, such that the decision tree can generalise 
+and be used to classify new cases. Being trained and used for such predictive purposes, the methods are well established methods in the field of machine learning. \colorbox{yellow}{Cross validation are, however, necessary to prevent overfitting.} \colorbox{yellow}{We have therefore included ....}
+
+
+\section*{Materials and methods}
+\colorbox{yellow}{The data included in the present study are from the Bergen Child Study (BCS),} \colorbox{yellow}{ a longitudinal, population-based study on mental health and development}
+The first wave of the Bergen Child Study (BCS) was launched in October 2002 and included the total population of 9,430 children attending second to fourth grade (7-9 years old, born in 1993, 1994 and 1995) in all public, private, and special schools in Bergen. 
+During the initial screening phase, parents and teachers were asked to complete a four-page BCS questionnaire, including, among other scales, a somewhat modified Swanson, Nolan, and Pelham Questionnaire - Fourth Edition (SNAP-IV); \cite{Swanson1992}.
+Sample protocols of the first wave have been described in several previous publications from the Bergen Child Study group 
+\cite{Heiervang2007, Lundervold2011, Sivertsen2015}.\\
+
+A fourth and \colorbox{yellow}{final} wave of BCS was conducted when the youth were between 16 and 19 years old; it comprised a more comprehensive sample than in the original BCS sample, including all adolescents born between 1993 and 1995 living in the county of Hordaland. This county includes the city of Bergen, and the BCS sample was thus nested within this Hordaland sample. A total of 10,222 adolescents completed a questionnaire asking for information about school attendance and psychiatric diagnosis. The BCS was approved by the Regional Committee for Medical and Health Research Ethics (REC), Western Norway (2015/800 Barn i Bergen/ung$@$hordaland). Parents gave written consent for participation in the first wave of the study. In accordance with the regulations from the REC and Norwegian health authorities, adolescents aged 16 years and older can make decisions regarding their own health (including participation in health studies), and thus gave consent themselves to participate in the fourth wave of the study. Parents/guardians have the right to be informed, and in the current study, all parents/guardians received written information about the study in advance.\\
+
+\colorbox{yellow}{More information about the project is given at the BCS homepage:} \colorbox{yellow}{\em http://uni.no/en/bergen-child-study/.}
+
+\vspace{3mm}
+\subsection*{The sample}
+The present study included the $2397$ participants ($1141$\ boys) with teacher reports on all selected SNAP-IV items when they were $7$ to $9$ years old (primary school class levels $2$, $3$, or $4$), information about gender, and academic achievement when they attended high school ($16$ to $19$ years old). 
+The percentages of children in the 2$^{\text{nd}}$, 3$^{\text{rd}}$ and 4$^{\text{th}}$ class levels when evaluated by their teachers were 
+$41.9$\%, 34.7\% and 23.4\%, respectively.
+
+
+\vspace{3mm}
+\subsection*{Teacher reports}
+\emph{Inattention} items were selected from the SNAP-IV \cite{Swanson1992}, describing problems used to define the inattentive symptoms of the Attention Deficit Hyperactivity Disorder (ADHD) according to the Diagnostic and Statistical Manual of Mental Disorders (DSM-5) (APA, 2013). The original SNAP-IV uses four levels to evaluate each item, whereas in our study, the teachers evaluated each item on a 3-level Likert-type scale (\emph{not true}, \emph{somewhat true}, or \emph{certainly true}) in order to follow the response pattern of the remaining scales included in the first wave of the BCS. Each answer was assigned a value $0$, $1$, or $2$. 
+The  nine inattention items from SNAP-IV are listed in Table 1. 
+
+
+\begin{table}[!ht]
+\begin{adjustwidth}{-5mm}{0in} % Comment out/remove adjustwidth environment if table fits in text column.
+\centering
+\caption{\bf SNAP items, scored as \emph{not true} (0), \emph{somewhat true} (1), and \emph{certainly true} (2)).}
+\vspace{5mm}
+\begin{tabular}{|ll|}
+\hline
+SNAP 1: & Often fails to give close attention to details or makes careless\\ & mistakes in schoolwork, work, or other activities\\ \hline
+SNAP 2: & Often has difficulty sustaining attention in tasks or play activities \\ \hline
+SNAP 3: & Often does not seem to listen when spoken to directly \\ \hline
+SNAP 4: & Often does not follow through on instructions and fails to finish\\ &  schoolwork, chores, or duties\\ \hline
+SNAP 5: & Often has difficulty organizing tasks and activities \\ \hline
+SNAP 6: & Often avoids, dislikes, or is reluctant to engage in tasks that require\\ & sustained mental effort\\ \hline
+SNAP 7: & Often loses things necessary for tasks or activities (e.g., toys, school\\ &  assignments, pencils, books, or tools) \\ \hline
+SNAP 8: & Often is distracted by extraneous stimuli\\ \hline
+SNAP 9: & Often is forgetful in daily activities \\ \hline
+\end{tabular}
+\label{Table1}
+\end{adjustwidth}
+\end{table}
+
+\vspace{5mm}
+
+The total score across the nine SNAP-IV items was statistically significant higher in boys (M = $1.67$ (SD = $2.8$)) than in girls (M = $.59$ (SD = $1.6$), $t (1776.099) = 11.36$, $p <  .001$). 
+The percentages of children scored within the three response categories are given in Table 2, confirming that the  frequency of girls reported with a (\emph{not true}) response was significantly higher than in boys. \\
+
+\vspace{5mm}
+
+\begin{table}[!ht]
+\begin{adjustwidth}{-5mm}{0in} % Comment out/remove adjustwidth environment if table fits in text column.
+\centering
+\caption{ \bf Percentage of children obtaining a given response from their teachers on each inattention item (SNAP-IV).} 
+\vspace{5mm}
+\begin{tabular}{|lrrr|rrr|rrr|}
+\hline
+                & \multicolumn{3}{c|}{\emph{Not true}}  &  \multicolumn{3}{c}{\emph{Somewhat true}}\ &  \multicolumn{3}{|c|}{\emph{Certainly true}}\\ \hline
+                    & All  (\%) & Girls & Boys  & All (\%)  & Girls & Boys & All  (\%) & Girls & Boys\\  \hline
+SNAP 1  & 86.7 & 91.1 & 81.9**  & 11.3 & 7.6   & 15.4  & 1.9 & 1.3 & 2.7\\  \hline
+SNAP 2  &88.3 & 93.9   & 82.1** & 9.6 & 5.6 & 14.0 & 2.1 & 0.5 & 3.9\\  \hline
+SNAP 3  & 91.8  &  96.6 &  86.6** & 7.6 & 3.2 & 12.4 & 0.6 & 0.2 & 1.1 \\   \hline
+SNAP 4  & 92.5  & 96.2   & 88.4**  & 6.8 & 3.6 & 10.4 & 0.7& 0.2 & 1.1 \\   \hline
+SNAP 5  &  91.4 & 95.9 & 86.3**  & 7.3 & 3.6  & 11.5  &1.3 & 0.5 & 2.2  \\   \hline
+SNAP 6  & 91.6 & 96.2 & 86.5**  & 7.1 & 3.4 & 11.1 & 1.3 & 0.4 & 2.4 \\   \hline
+SNAP 7  & 96.5 & 98.5   & 94.2**   & 3.0  & 1.2 & 5.1 & 0.5 & 0.3 & 0.7 \\   \hline
+SNAP 8  & 74.8 & 84.3   & 64.4**  & 21.3  & 14.3  & 29.0 &  3.9 & 1.4 & 6.6\\    \hline
+SNAP 9  & 89.4 & 93.3 & 85.0** & 9.5 & 6.3 & 13.1 & 1.1 & 0.4  & 1.9 \\  \hline
+\end{tabular}
+\label{Numerical_SNAP}
+\end{adjustwidth}
+\textit{Note:} {Total number of children = 2397, girls = 1256, boys = 1141.  **: $p$ value $<$.001 according to a chi-square test comparing a ``not true'' report in boys and girls.} \\ 
+\end{table}
+
+
+\subsection*{Academic achievement}
+Academic achievement scores were provided by the official registers from the Hordaland County. In Norway, secondary schools use a scale spanning from $1$ to $6$, with $6$ 
+being the highest grade (outstanding competence),  $2$  the lowest passing grade (low level of competence), and $1$ being a {\it fail}. 
+\colorbox{yellow}{The academic achievement scores that were available to our study was the mean value} \colorbox{yellow}{of the grades during the previous semester, comprising all school subjects except} \colorbox{yellow}{for physical education (gym). }
+%$average\_grade \in [1, 6]$, the mean value of the grades during the previous semester, comprising all subjects except for physical education (gym). 
+%The distribution of average academic achievement scores are shown in Fig.~\ref{academic_achievement_densities}, separately for girls and boys, showing that the mean score for girls was statistically significant higher mean for girls (4.13 (.72))  than for boys (3.91 (.72) , $t$(2371.956) = 7.23, $p$$<$ .001). 
+The mean score for girls was statistically significant higher  (M = $4.13$ (SD = $.72$))  than for boys (M = $3.91$ (SD = $.72$) , $t(2371.956) = 7.23$, $p  <  .001$). 
+For the present study, the academic achievement scores were categorised into three levels, calculated to generate groups with similar number of participants (see details below). 
+
+
+
+\subsection*{Statistical analysis}
+The data analysis was divided into three parts: ({\bf  a}) data preparation, ({\bf b}) explorative data analysis, ({\bf c}) pattern classification using two different multivariate statistical methods (MLR and CART), \colorbox{yellow}{and ({\bf c}) a validation procedure.} 
+To perform these steps, explained in detail below, we used  {\tt R} (ver. 3.2.3) with selected packages in the 
+{\tt RStudio} environment, with an exception for Fig.~3
+where {\tt MATLAB} (R2015b) was used. The R markdown notebook, implementing our analysis, will be available on GitHub [address TBA].  
+
+\vspace{3mm}
+\subsubsection*{Data preparation}
+%\,  {\footnotesize [{\tt code2/data\_prep\_20160205.R} ; {\tt data\_prep\_and\_visualization\_20160203.m}]}}
+
+The original data provided to us as a SPSS-file was imported into the R environment. For the analysis we used the sample of $n=2397$ children having complete data 
+on the $11$ predictor variables and academic achievement as outcome variable.
+
+
+ For classification purposes, the mean average academic achievement scores were discretised into three intervals (level of academic achievement) constructed to include about the same number of participants in each of the categories;  
+%These three level (\emph  {bin} = 3) \emph{cutpoints} for the mean average academic achievement score was obtained as:  \emph{cutpoints $<-$ quantile(aver,(0:bins)/bins)}. By this we obtained the following levels and intervals:
+{ \it low} ($[1.000 - 3.750\rangle$,  $n$ = 779),
+{\it medium} ($[3.750 - 4.429\rangle$, $n$ = 818), and
+{\it high} ($[4.429 - 5.900]$, $n$ = 800). 
+The distribution across the three levels - from low to high - was 39.2\%, 34.1\% and 26.7\% for boys, and 26.4\%, 34.2\% and 39.4\% for girls, confirming the overall higher academic scores achieved by the girls. 
+ Depiction of the data values (gray scale heatmaps) and the classification methods being used are given in Fig. 1. 
+ % Fig.~\ref{Data_to_classes}.
+ 
+
+
+\subsubsection*{Multinomial logistic regression model (MLR)}
+The multinomial logistic regression analysis included the following set of variables on a nominal level: the three levels of academic achievement scores as the outcome variable, and teacher reports on the nine inattention items, gender and primary school class level as predictors. 
+Generally, the multinomial logistic regression model relates a set of explanatory variables $x_1, \ldots, x_p$ to a set of log-odds, $\log(\pi_2/\pi_1), \ldots \log(\pi_J/\pi_1)$ according to
+\begin{equation}
+\label{eq_MLR}
+\log(\pi_j/\pi_1) = \beta_{j0} + \beta_{j1} x_1 + \cdots + \beta_{jp} x_p
+\end{equation}
+for $j=2,\ldots,J$. Here, $j = 1$ represents the base level category, $\pi_j = P(\mbox{academic achievement level} = j)$, $\pi_j/\pi_{j'}$ denotes the odds of category $j$ relative to $j'$, and $\sum_{j=1}^J \pi_j = 1$ (see e.g. \cite{Bilder2015} for details).
+In our case, we let the base level category $j=1$ be the {\it low} mean academic achievement, \colorbox{yellow}{meaning that the low was compared to the medium and high category, respectively.}
+For computations we used the {\tt mlogit()} function in the R package {\bf mlogit}. \\
+%
+%Here, $j = 1$ represents the base level category, $\pi_j = P(\mbox{academic achievement level} = j)$, $\pi_j/\pi_{j'}$ denotes the odds of category $j$ relative to $j'$,  (see e.g. \cite{Bilder2015} for details).
+%In our case, we let the base level category $j=1$ be the {\it high} (=3) mean academic achievement.
+%For computations we used the {\tt multinom()} function in the R package {\tt nnet}. \\
+
+\vspace{3mm}
+
+\subsubsection*{Classification trees (CART)}
+
+The nine Snap-IV items were included together with demographics (\emph{Gender} and \emph{primary school glass level (grade)}) as predictor variables in a classification and regression tree analysis 
+(CART) \cite{Breiman1984} used to predict level of academic achievement score $\{$\emph{low}, \emph{medium}, \emph{high}$\}$.
+
+In brief, the \emph{root} of the classification tree is the top node and input patterns are passed down the tree such that decisions are made at each node until a terminal 
+node (a \emph{leaf}) is reached. At each non-terminal node a question is posed on which a binary split is made such that the ``child" nodes are on average ``purer" than their ``parent". 
+A measure of ``impurity" is 
+low (i.e. close to $0$) if the probability of the occurrence of a class at a given node for all subsets of patterns reaching that node is concentrated on that class. 
+The ``impurity" is maximal if the class probabilities at that node is uniform. 
+A common algorithmic approach is to use the \emph{Gini index} as a measure of impurity,
+which can be interpreted as the expected error rate if the class label is chosen randomly from the class distribution at that node \cite{Ripley1996, Strobl2009}.              
+In our analysis we used the {\bf rpart} package in R for growing the classification tree (cf. Fig. 2).
+
+\section*{Results}
+\subsection*{Multinomial logistic regression model (MLR)}
+
+%The chi-square test, indicating how much new variance is explained by the baseline 0-model, is statistically significant (255.7, $p < .001$). 
+
+Gender significantly predicted whether a child obtained a low rather than a high academic achievement score in high school (b = -.49, $p < .001$) as well as a low rather than a medium score (b = -.23, $p = .003$). The odds ratio tells us that going from a female to a male reduced the odds of obtaining a low compared to a medium (.80) and a high (.61) score.  In other words, boys were overall somewhat more likely to obtain a low academic achievement level in high school than the girls \colorbox{yellow}{Table 3}. 
+
+Two of the teacher reported inattention items significantly predicted a low rather than a medium academic achievement score. The strongest effect was found for an item reflecting problems related to sustained attention (SNAP2, b = -.65, $p < .001$). An odds ratio of .52 tells us that for each unit change in the score given by the teacher, the child was almost two times less likely to obtain a medium compared to a low academic achievement score (1/.52 = 1.9). The second item reflects distractibility (SNAP8, -.29, $p = .002$), with an odds ratio of .75 leaving the child with a somewhat increased odds (1.3) of obtaining a low score.  
+
+
+The predictions from these two items were even stronger when comparing low to high academic achievement scores, with the highest estimate of the sustained attention item (SNAP2, b = -.96, $p < .001$) followed by the distractibility item (SNAP8, b = -.60, $p < .001$).  The odds ratios show that the child was 2.6 times more likely to obtain a low score in high school for each more severe step in problems reported on SNAP2 (OD = .38) and  2.4 times more likely for each step on SNAP8 (OR = .41).  
+
+The prediction of low rather than high academic achievement score was also significant for two other items reflecting problems related to sustained attention, SNAP1 (b = -.58, $p < .001$) and SNAP6 (b = -.66, $p = .002$). With ORs of .56 and .52, the increase was almost twofold (1.9 and 1.8, respectively). 
+
+
+
+
+%Four SNAP items significantly predicted a low rather than high academic achievement score for each unit change in the inattention score. The strongest effects were found for two items reflecting the ability to sustain attention, with an around two-fold increase in odds-ratios ($2.6$  ($p < 0.001$) and $1.9$ ($p  = .02$) for SNAP 2 and SNAP 6, respectively). 
+%The odds-ratios were also high for the distractibility item and an item indicating that the child fails to focus attention or make careless errors (SNAP 8 and SNAP 1, 
+%both odds-ratios = $1.8$, with $p < .001$ and $p = .001$, respectively).  
+%Two SNAP items significantly predicted medium rather than high academic achievement score: SNAP 1, with an 
+%odds-ratio of $1.7$ ($p = .004$), and SNAP 8, with an odds-ratio of $1.4$ ($p  = .04$) (Table 3). \\
+
+To sum up the results from the MLR, inattentive behaviour associated with problems related to sustained attention and distractibility predicted low rather than high academic achievement levels in high school, with an overall higher odds-ratio in boys than in girls \colorbox{yellow}{Table 3}. \\
+
+
+
+  
+
+\vspace{5mm}
+
+% latex table generated in R 3.4.0 by xtable 1.8-2 package
+% Mon Jun 12 01:56:24 2017
+\begin{table}[H]
+\centering
+\caption{\bf Multinomial logistic regression model.} 
+\begin{tabular}{|llrrrr|rr|}
+  \hline
+ %& Estimate & Std..Error & t.value & Pr...t.. & X2.5.. & exp.mlFitD.coefficients. & X97.5.. \\ 
+Reference category: &&&&&&&\\
+Low score & Variable &Estimate & SE & \textbf{z} & \textbf{P$>$$|$z$|$} &  OR &  95\%CI\\ 
+ \hline
+  \hline
+% Medium score &&&&&&&\\
+Medium score & intercept  & 0.86 & 0.20 & 4.20 & 0.00 & 2.35 & 1.58-3.50 \\ 
+\hline
+  & gender & -0.23 & 0.11 & -2.14 & 0.03 & 0.80 & 0.65-0.98 \\ 
+ \hline
+  & grade & -0.16 & 0.07 & -2.51 & 0.01& 0.85 & 0.75-0.96 \\ 
+ \hline
+  & SNAP 1 & -0.05 & 0.14 & -0.40 & 0.69 & 0.95 & 0.72-1.24 \\ 
+  \hline
+  & SNAP 2 & -0.65 & 0.19 & -3.34 & 0.00 & 0.52 & 0.36-0.76 \\ 
+  \hline
+  & SNAP 3 & 0.02 & 0.20 & 0.12 & 0.90 & 1.02 & 0.70-1.50 \\ 
+  \hline
+  & SNAP 4 & 0.17 & 0.24 & 0.70 & 0.49 & 1.18 & 0.74-1.89 \\ 
+  \hline
+  & SNAP 5 & 0.04 & 0.22 & 0.19 & 0.85 & 1.04 & 0.68-1.60 \\ 
+  \hline
+  & SNAP 6 & -0.17 & 0.20 & -0.85 & 0.40 &  0.84 & 0.56-1.25 \\ 
+   \hline
+  & SNAP 7 & 0.16 & 0.26 & 0.62 & 0.53 & 1.18 & 0.70-1.97 \\ 
+  \hline
+  & SNAP 8 & -0.29 & 0.13 & -2.25 & 0.02 & 0.75 & 0.58-0.96 \\ 
+  \hline
+  & SNAP 9 & -0.06 & 0.16 & -0.39 & 0.69 & 0.94 & 0.68-1.29 \\ 
+   \hline
+   \hline
+%   High Score &&&&&&&\\
+   High score & intercept & 0.93 & 0.21 & 4.45 & 0.00 & 2.53 & 1.68-3.80 \\ 
+  \hline
+  & gender & -0.49 & 0.11 & -4.48 & 0.00 & 0.61 & 0.50-0.76 \\ 
+ \hline
+ & grade & -0.10 & 0.07 & -1.52 & 0.13 & 0.90 & 0.79-1.03 \\ 
+ \hline
+  & SNAP 1 & -0.58 & 0.18 & -3.20 & 0.00 & 0.56 & 0.39-0.80 \\ 
+  \hline
+  & SNAP 2 & -0.96 & 0.27 & -3.59 & 0.00 & 0.38 & 0.23-0.65 \\ 
+  \hline
+  & SNAP 3 & -0.08 & 0.25 & -0.32 & 0.75 & 0.92 & 0.57-1.50 \\ 
+  \hline
+  & SNAP 4 & 0.11 & 0.32 & 0.33 & 0.74 & 1.11 & 0.59-2.09 \\ 
+  \hline
+  & SNAP 5 & 0.47 & 0.27 & 1.70 & 0.09 & 1.59 & 0.93-2.73 \\ 
+  \hline 
+  & SNAP 6 & -0.66 & 0.29 & -2.29 & 0.02 & 0.52 & 0.29-0.91 \\ 
+   \hline
+  & SNAP 7 & -0.19 & 0.43 & -0.45 & 0.65 & 0.82 & 0.35-1.92 \\ 
+  \hline
+  & SNAP 8 & -0.60 & 0.15 & -4.05 & 0.00 & 0.55 & 0.41-0.73 \\ 
+  \hline
+  & SNAP 9 & -0.24 & 0.20 & -1.21 & 0.23 & 0.79 & 0.53-1.16 \\ 
+   \hline
+
+\end{tabular}
+%\end{table}
+%\vspace{-4mm}
+\begin{center}
+Reference group = low academic achievment. OR = Odds ratio.\\ 
+\end{center}
+\end{table}
+\vspace{5mm}
+
+  \subsection*{Classification trees (CART)}
+
+\subsubsection*{Tree classification and feature importance}
+ The CART analysis generated five terminal nodes (Fig. 2). The first split is identified on SNAP 2, assessing the ability to sustain attention. Teacher reports of \emph{somewhat true} or \emph{certainly true}  on this item were associated with a low academic achievement score at high school (node \#3). A total of 12 \% of the sample was allocated to this node, where only 9 \% obtained the highest and 65 \% the lowest achievement level. If teachers reported no problems on SNAP 2, there was a second split on SNAP 8, assessing distractibility. A teacher report of \emph{somewhat true} or \emph{certainly true}  on this item (14\% of the sample) allocated 41 \% of the children to the lowest academic achievement level (node \#6). 
+ 
+Reports of \emph{not true} reports on both the SNAP 2 and SNAP 8 including as many as 74\% of the sample.  Among these children, 44\% were girls, who mainly were allocated to the highest (43\%) or medium achievement level (35\%).  Reports of no problems were also obtained by 30\% of the boys,  and their class level when evaluated by their teachers had some influence on their future academic achievement. If reported with no problems by their teachers in the fourth grade (7\% of the sample), 44\% obtained the highest academic achievement level  (node {\#29). However, the percentage allocated to the lowest level was as high as among the children evaluated as lower class levels (30\%). \\
+
+ To sum up the results from the CART, 26\% (node \#(2 + 6) of the children were reported to have problems on items reflecting sustained attention or distractibility, reports that were strong predictors of a low high-school academic achievement scores. With only 30\% of the boys allocated to the node without problems on these two items (total = 75\%), the rate of boys among those with problems are estimated to be around 60\%. This suggests that a high proportion of boys reported with problems in primary school will obtain low academic achievement scores when they attend high-school. \\ 
+
+
+%
+%\begin{table}[!ht]
+%\begin{adjustwidth}{-7mm}{0in} % Comment out/remove adjustwidth environment if table fits in text column.
+%\centering
+%%\begin{small}
+%\caption{\bf Multinomial logistic regression model.} 
+%\vspace{5mm}
+%\begin{tabular}{|llrrr|}
+%\hline
+%{\em Medium/low achievement} & B(SE) & Lower & Odds Ratio & Upper\\ \hline
+%Intercept & -.93(.21)$^{***}$ & 0.3 & 0.4 & 0.6\\ \hline
+%Gender &  .49(.11)$^{***}$  & 1.3 & 1.6 & 2.0 \\ \hline
+%Grade &  .10(.07) & 1.0 & 1.2 & 1.3 \\ \hline
+%SNAP1 & .58(.18)$^{**}$ & 1.3 & 1.8 & 2.6 \\ \hline
+%SNAP2 & .96(.27)$^{***}$ & 1.5 & 2.6 & 4.4 \\ \hline
+%SNAP3 & .08(.25) & 0.7 & 1.1 & 1.8\\ \hline
+%SNAP4 & -.11(.32) & 0.5 & 0.9 & 1.7 \\ \hline
+%SNAP5 & -.47(.27) & 0.4 & 0.6 & 1.1 \\ \hline
+%SNAP6 & .66(.29) $^{*}$ & 1.1 & 1.9 & 3.4 \\ \hline
+%SNAP7 & .19(.43) & 0.5 & 1.2 & 2.8\\ \hline
+%SNAP8 & .60(.15)$^{***}$ & 1.4 & 1.8 & 2.4\\ \hline
+%SNAP9 & .24(.20) & 0.9 & 1.3 & 1.9 \\ \hline
+%    &   &  &  &   \\ 
+%{\em High/low achievement} & B(SE) & Lower & Odds Ratio & Upper \\ \hline
+%Intercept & -.07(.19) & 0.6 & 0.9 & 1.3\\ \hline
+%Gender &  .26(.10) $^{*}$ & 1.1 & 1.3 & 1.6 \\ \hline
+%Grade &  -.06(.06) & 0.8 & 0.9 & 1.1 \\ \hline
+%SNAP1 &  .53(.18)$^{**}$ & 1.8 & 1.7 & 2.4 \\ \hline
+%SNAP2 & .31(.28) &0.8 & 1.4 & 2.4 \\ \hline
+%SNAP3 & .10(.25) & 0.7 & 1.1 & 1.8\\ \hline
+%SNAP4 & .06(.33) & 0.6 & 1.1 & 2.0 \\ \hline
+%SNAP5 & .43(.28) & 0.4 & 0.7 & 1.4 \\ \hline
+%SNAP6 & .49(.30) & 0.9 & 1.6 & 2.9 \\ \hline
+%SNAP7 & .36(.44) & 0.6 & 1.4 & 3.4\\ \hline
+%SNAP8 & .31(.15) $^{*}$ & 1.0 & 1.4 & 1.8 \\ \hline
+%SNAP9 & .18(.20) & 0.8 & 1.9 & 1.8 \\ \hline
+%\end{tabular} 
+%\label{MLR_results_test}
+%\end{adjustwidth}
+%\vspace{2mm}
+%Log-Likelihood =  -2505.1 with 4770 degrees of freedom\\
+%\textit{Note:} B = estimated coefficients; SE = standard errors; OR = Odds ratios).\\ {$^{*}$p$<$0.05$^{**}$p$<$0.001; $^{***}$p$<$0.001} \\ 
+%
+%%\end{small}
+%%\end{adjustwidth}
+%\end{table}
+
+\section*{Discussion}
+\subsection*{Summary of results}
+The present study asked if specific features of inattentive behaviour in primary school - as reported by teachers - act as predictors of academic achievement in high school. The time span between the two events was about 10 years, and different types of multivariate analyses were used to handle the set of categorical variables.  \colorbox{yellow}{Overall, the statistical models selected items reflecting problems related to sustained}  \colorbox{yellow}{attention and distractibility as primary predictors.}  \colorbox{yellow}{Problems related to either of these items were reported in 26\% of the children.} Gender was also identified as a strong predictor by the MLR analysis, and the CART analysis showed that around 60\% of the children with problems were boys. The age when evaluated by the primary school teachers was of some importance to future academic achievements in boys. The chance of obtaining a high score was somewhat higher among those rated without problems in the 4$^{\text{th}}$ than lower primary school class levels. Taken together, the results suggest that children reported with problems related to sustained attention and distractibility, of whom the majority was boys, were allocated to terminal nodes characterised by a predominance of low academic achievement scores in high school. \\
+
+\subsection*{Early predictors of academic achievement in high school}
+The main contribution of the present study was the importance of sustained attention and distractibility in primary school as predictors of high school academic achievement. By this, the results partly overlapped with findings previously reported in a study by Holmberg et al. \cite{Holmberg2014}, where  teacher reports of failure to finish a task was found to be one of the main factors in explaining academic outcome. 
+Our study add to this by revealing the importance of problems related to distractibility. The MLR showed that this problem was associated with an almost two-fold increased odds-ratio of an achievement score in the lower than higher end of the scale, and its importance as a predictor was clearly supported by the CART analysis. In a class situation, the relation between the two is obvious. A child with the ability to stay focused on a task over a longer period of time is expected to be less disturbed by habits and cues in the environment than a child with poor vigilance.  This enables the child to obtain the basic skills and knowledge that are of importance to the academic achievement scores as the curriculum become more complex at high school level.  \\
+
+The present study add to our understanding about the relative importance of the different aspects of inattention. Most previous studies have investigated the effect of a sum-score across several items. A significant relation between such a sum score and academic achievement was shown in one of our previous studies, including as subsample form BCS and the sample of Berkeley Girls with ADHD Longitudinal Study (BGALS). The importance of the inattention score was significant across these culturally and diagnostically diverse groups, over and above the effect of intellectual function  \cite{Lundervold2017}. Further studies should investigate this at an item level, in that the present study show that some of the items in the inattention scale used in the present study did not add to the predictive value. These studies should also include predictors like those related to individuals? socio-economic characteristics and other characteristics  found to impact on both attention related behaviours and academic attainment \cite Russel2015}.\\
+
+
+Inattention is one of the core symptoms of ADHD, but the importance of inattentive behaviour to academic achievement is definitely not restricted to a diagnostic category. This is underscored by the results of the present study, showing that inattention may have a detrimental effects on future academic function even in a population-based sample.  However, although a high proportion of children obtaining a low academic achievement score were reported as inattentive by their primary school teachers, the prediction accuracy across all academic achievement levels was still poor. This reflects both the instability of inattentive behaviour and the large number of co-existing and new challenges influencing a child through childhood and adolescence. Identification of these factors awaits further longitudinal studies. \\
+
+Taken together, the present results should inspire assessment and treatment efforts in primary school children vulnerable to distractibility and problems to sustain their attention in their school-related work. 
+The close relationship between inattentive behaviour and cognitive function \cite{Berger2013, Berger2015} have lead to the popularity of presenting cognitive training programs to school children with ADHD (see e.g., \cite{Rapport2013, Tamm2017}). A sole focus on cognitive training of the child is, however, not expected to lead to successful alleviation of the inattentive behaviour described in the present paper. This is supported by the  conclusion in the meta-analysis presented by Cortese and collaborators  \cite{Cortese2015}, where cognitive training procedures were shown to have limited effects on ADHD symptoms when the assessment was based on blinded measures. Positive contributions from parents and teachers are essential (see e.g., \cite{Pfiffner2014}). Whereas parent-focused training produces improvements in negative parenting and impairment at home, incorporation of child skill training and teacher consultation may be necessary to produce improvements at school \cite{Haack2016}. 
+
+Gender turned out to be another important predictor. Girls were reported by their primary school teachers to have less inattention symptoms and to obtain higher academic achievement in high school than boys. Boys showed an increased odds ratio when compared to girls for obtaining the lowest compared to the highest academic achievement level. Although gender was identified as one of the main predictors of academic achievement scores in MLR, the CART analysis showed a more differentiated picture. Age at the time of primary teacher reports turned out to be an important factor for boys. If reported with no problems at the 4$^{\text{th}}$ primary school class level, more than 40\% of the boys obtained  the highest level of academic achievement. A similar effect of age was not found in girls, supporting that predictors of academic achievement may be different for girls and boys at different ages.  Further gender balanced longitudinal studies of functional outcomes of early inattentive behaviour are therefore warranted. \\
+
+%
+%\subsection*{Selection of statistical methods}
+%Questionnaire data with only a few response categories are commonly used in psychological research. The  relevance of the present analytic approach is therefore not restricted to the topic of the present study. The two statistical methods in the present study were selected to handle situations where predictor variables with a few number of categories may hide complex interactions. This approach is therefore clearly appropriate when investigating predictions from scales representing complex concept like inattention. Here,  the weights of different problem areas and their interactions may give information of importance to understand how to identify essential problems in a child. 
+% In the present study we included a multinominal logit model to handle the categorical characteristics of the data. By the multinominal logit model, the generated coefficients were easily converted to probability values. In the setting of this study, the coefficient indicated the probability that any child will be classified in one of the academic achievement categories given the reports of inattention, age and gender. This method is, however, not appropriate to reveal behaviour patterns that may be hidden by complex interactions between the teacher reports on the nine  inattention items. We therefore included CART, a method appropriate with our aim to investigate if specific problem areas are of importance to predict future academic outcome. 
+% 
+%
+
+ \subsection*{Strengths and Limitations}
+The large population-based sample of high-school students followed from childhood, inclusion of a standardised questionnaire assessing inattention, and inclusion of academic achievement scores from official National registers are main strengths of the present study. Another strength is the inclusion of statistical methods - the MLR and CART. By this we could handle predictor variables with few categories and possible hidden multidimensional relationships, and still generate behavioural patterns that was easy to interpret. Furthermore,  the  relevance of the present analytic approach is clearly not restricted to the topic of the present study, in that questionnaire data with only a few response categories are commonly used in psychological research. \\
+
+%I Although the statistical analyses have several strengths, applications of recursive partitioning methods in psychology also reveal common misperceptions and pitfalls. For example, Luellen et al. (2005) suspected that the CART methods could overfit (i.e., adapt too closely to random variations in the learning sample). This underscores the need to confirm results across different methods or inclusion of statistical validation procedures.  
+%
+%By adding recursive partitioning, a high number of threes were generated. This is important, in that the selection of a splitting variable will strongly depend on the distribution in the learning sample. By repeating the procedure as in the present study, the prediction is expected to be more correct than when based on a single tree. 
+
+In spite of the strengths and the importance of the findings generated, several limitations must be mentioned. Inclusion of very few predictor variables when assessing predictions over a nine-years period as in the present study, is an obvious limitation of the present study. A stronger model could have been obtained by including results from psychometric test assessing vigilance and distractibility, similar to the one developed by Cassuto et al. \cite{Cassuto2013}, or more ecological valid virtual reality test as the one described by Pelham et al. \cite{Pelham2011}. Inclusion of teacher reports only may also be considered as a limitation. Although parent reports obviously are of importance, teacher reports were selected due to the focus on academic achievements. An even more sophisticated analysis would be to include repeated inattention measures to understand the trajectory from early symptoms of inattention to function in adolescence and adulthood. Its importance was demonstrated in a study by Pingault and collaborators \cite{Pingault2014}, showing that increase in symptoms of inattention during childhood really matters when it comes to school graduation failure. Such studies are important and should include analysis of behavioural patterns, because a specific pattern of vigilance and distraction was suggested by the present study. Finally, academic achievement level did not reflect overall high school achievement, in that it was operationalized as the mean of grades for one semester only.\\
+
+
+%\paragraph{Figure 1} The data organisation for the sample. 
+%{\it gender} is $0$ (girls) or $1$ (boys), {\it grade} is primary school class level, $2$, $3$, or $4$. The  three-level Likert items from Snap-IV: SNAP1$, \ldots, $ SNAP9 each have three possible values: $0$ = \emph{not true}; $1$ = \emph{somewhat true}; $2$ = \emph{certainly true}) 
+
+\vspace{5mm}
+
+\paragraph{Figure 1} The predictor data (explanatory variables), the academic achievement outcome, and the types of classification analyses being performed. 
+Data values are represented as grey level heat maps. See 
+Fig. 1 for explanation of variables.\,
+MLR = Multinomial logistic regression, CART = Classification and regression trees. \\
+
+
+
+\vspace{5mm}
+
+\paragraph{Figure 2} Fitted classification tree (CART analysis),  including the predictor variables SNAP-IV items $1$ to $9$ ($0$ = \emph{not true}; $1$ = \emph{somewhat true};
+ $2$ = \emph{certainly true}); gender (0 = \emph{girl}; 1 = \emph{boy}); grade (primarty school class level 2, 3, 4) and the academic achievement outcome (H = \emph{high}, L = \emph{low},  M = \emph{medium}, where the three occurrence frequencies in the node boxes are given in alphabetical order). The percentage in each node box denote the
+ percentage of samples routed to that particular node - where the root node will contain 100\% of the samples, and a leaf node will contain the least number of samples along 
+ a rooted path in the decision tree.
+The node numbers are given on top of each node box. For each split decision, \emph{`yes'} denotes that the corresponding statement is \emph{ false} 
+and then pointing to the left child node
+(that is either a new internal decision node or a final leaf node), and \emph{`no'}
+denotes that the corresponding statement is \emph{true} and then pointing to the right child node (that is either a new internal decision node or a final leaf node).  
+The tree is plotted using the {\small \tt fancyRpartPlot()} function from Graham Williams {\bf rattle} package
+({\small \url{http://rattle.togaware.com}})
+
+
+\section*{Acknowledgement}
+The present study was supported by the Centre for Child and Adolescent Mental Health and Welfare, Uni health, Uni
+Research, Bergen, Norway, and was also funded by the University of Bergen, the Norwegian Directorate for Health and
+Social Affairs, and the Western Norway Regional Health Authority. We are grateful to the children, parents and teachers
+participating in the Bergen Child Study (BCS) and members of the BCS project group for making the study possible. A
+special thank to Professor Christopher Gillberg, who initiated this study.
+
+\newpage
+
+%
+%% Include only the SI item label in the paragraph heading. Use the \nameref{label} command to cite SI items in the text.
+%\paragraph*{S1 Fig.}
+%\label{S1_Fig}
+%{\bf Bold the title sentence.} Add descriptive text after the title of the item (optional).
+%
+%\paragraph*{S2 Fig.}
+%\label{S2_Fig}
+%{\bf Lorem ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
+%
+%\paragraph*{S1 File.}
+%\label{S1_File}
+%{\bf Lorem ipsum.}  Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
+%
+%\paragraph*{S1 Video.}
+%\label{S1_Video}
+%{\bf Lorem ipsum.}  Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
+%
+%\paragraph*{S1 Appendix.}
+%\label{S1_Appendix}
+%{\bf Lorem ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
+%
+%\paragraph*{S1 Table.}
+%\label{S1_Table}
+%{\bf Lorem ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
+%
+%\section*{Acknowledgments}
+%Cras egestas velit mauris, eu mollis turpis pellentesque sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam id pretium nisi. Sed ac quam id nisi malesuada congue. Sed interdum aliquet augue, at pellentesque quam rhoncus vitae.
+%
+%\nolinenumbers
+%
+% Either type in your references using
+% \begin{thebibliography}{}
+% \bibitem{}
+% Text
+% \end{thebibliography}
+%
+% or
+%
+% Compile your BiBTeX database using our plos2015.bst
+% style file and paste the contents of your .bbl file
+% here. See http://journals.plos.org/plosone/s/latex for 
+% step-by-step instructions.
+% 
+
+\begin{thebibliography}{10}
+
+\bibitem {APA, 2013}
+American Psychiatric Association. 
+\newblock {\em Diagnostic and statistical manual of mentaldisorders (5th ed.)}. 
+\newblock Washington, DC: Author.
+
+\bibitem{Becker2013}
+Becker SP, Luebbe AM, Fite PJ, Greening L,
+  Stoppelbein L.
+\newblock Oppositional defiant disorder symptoms in relation to psychopathic
+  traits and aggression among psychiatrically hospitalized children: {ADHD}
+  symptoms as a potential moderator.
+\newblock Aggressive Behavior, 2013. 39(3):201--211. doi: 10.1002/ab.21471
+
+\bibitem{Bellanti2000}
+Bellanti CJ, Bierman, KL.
+\newblock Disentangling the impact of low cognitive ability and inattention on
+  social behavior and peer relationships. conduct problems prevention re search
+  group.
+\newblock Journal of Clinical Child Psychology, 2000. 29(1), 66--75.
+
+\bibitem{Berger2015}
+Berger I, Remington A, Leitner Y, Leviton A.
+\newblock Brain development and the attention spectrum.
+\newblock Frontiers in Human Neuroscience, 2015. 9:23, 2015. e1218. doi: 10.1038/tp.2017.164
+
+\bibitem{Berger2013}
+Itai Berger, Ortal Slobodin, Merav Aboud, Julia Melamed, and Hanoch Cassuto.
+\newblock Maturational delay in {ADHD}: evidence from {CPT}.
+\newblock {\em Frontiers in Human Neuroscience}, 7:691, 2013.
+
+\bibitem{Berry2014}
+Anne~S. Berry, Elise Demeter, Surya Sabhapathy, Brett~A. English, Randy~D.
+  Blakely, Martin Sarter, and Cindy Lustig.
+\newblock Disposed to distraction: genetic variation in the cholinergic system
+  influences distractibility but not time-on-task effects.
+\newblock {\em Journal of Cognitive Neuroscience}, 26(9):1981--1991, Sep 2014.
+
+%\bibitem{Biederman2004}
+%Joseph Biederman, Stephen~V. Faraone, Michael~C. Monuteaux, Marie Bober, and
+%  Elizabeth Cadogen.
+%\newblock Gender effects on {A}ttention-{D}eficit {H}yperactivity disorder in
+%  adults, revisited.
+%\newblock {\em Biol Psychiatry}, 55(7):692--700, Apr 2004.
+
+\bibitem{Bilder2015}
+Bilder CR,  Loughin TM.
+\newblock Analysis of Categorical Data with R.
+\newblock CRC Press, 2015.
+
+\bibitem{Breiman1984}
+Breiman L, Friedman G, Stone CJ, Olshen RA.
+\newblock Classification and Regression Trees.
+\newblock Taaylor and Francis, 1984.
+
+\bibitem{Bussing2003c}
+Regina Bussing, Bonnie~T Zima, Faye~A Gary, and Cynthia~Wilson Garvan.
+\newblock Barriers to detection, help-seeking, and service use for children
+  with {ADHD} symptoms.
+\newblock {\em The journal of Behavioral Health Services \& Research},
+  30:176--189, 2003.
+
+\bibitem{Capriotti2017}
+Capriotti MR, Pfiffner LJ.
+\newblock Patterns and predictors of service utilization among youth with
+  {ADHD}-predominantly inattentive presentation.
+\newblock Journal of Attention Disorders, 2017. 1:1087054716677817. doi: 10.1177/1087054716677817.
+
+\bibitem{Cassuto2013}
+Hanoch Cassuto, Anat Ben-Simon, and Itai Berger.
+\newblock Using environmental distractors in the diagnosis of {ADHD}.
+\newblock {\em Frontiers in Human Neuroscience}, 7:805, 2013.
+
+\bibitem{Connors2012}
+Laura~L. Connors, Jennifer Connolly, and Maggie~E. Toplak.
+\newblock Self-reported inattention in early adolescence in a community sample.
+\newblock {\em Journal of Attention Disorders}, 16(1):60--70, Jan 2012.
+
+\bibitem{Cortese2015}
+Samuele Cortese, Maite Ferrin, Daniel Brandeis, Jan Buitelaar, David Daley,
+  Ralf~W Dittmann, Martin Holtmann, Paramala Santosh, Jim Stevenson, Argyris
+  Stringaris, Alessandro Zuddas, Edmund J~S Sonuga-Barke, and European ADHD
+  Guidelines~Group (EAGG).
+\newblock Cognitive training for attention-deficit/hyperactivity disorder:
+  meta-analysis of clinical and neuropsychological outcomes from randomized
+  controlled trials.
+\newblock {\em Journal of the American Academy of Child and Adolescent
+  Psychiatry}, 54:164--174, March 2015.
+  
+ \bibitem{Fried2016}
+ Fried, R, Petty C, Faraone SV, Hyder LL, Day H, Biederman, J.\newblock Is ADHD a risk factor for high school dropout? A controlledstudy. 
+ \newblock Journal of Attention Disorder, 20, 383?389. doi: 10.1177/1087054712473180.
+ 
+ 
+\bibitem{Garner2013}
+Annie~A. Garner, Briannon~C. O?connor, Megan~E. Narad, Leanne Tamm, John Simon,
+  and Jeffery~N. Epstein.
+\newblock The relationship between adhd symptom dimensions, clinical
+  correlates, and functional impairments.
+\newblock {\em J Dev Behav Pediatr}, 34(7):469--477, Sep 2013.
+
+%\bibitem{Graetz2006}
+%Brian~W. Graetz, Michael~G. Sawyer, Peter Baghurst, and Kerry Ettridge.
+%\newblock Are {ADHD} gender patterns moderated by sample source?
+%\newblock {\em Journal of Attention Disorders}, 10(1):36--43, Aug 2006.
+
+\bibitem{Gray2014}
+Sarah A~O. Gray, Alice~S. Carter, Margaret~J. Briggs-Gowan, Stephanie~M. Jones,
+  and Robert~L. Wagmiller.
+\newblock Growth trajectories of early aggression, overactivity, and
+  inattention: Relations to second-grade reading.
+\newblock {\em Developmental Psychology}, 50(9):2255--2263, Sep 2014.
+
+\bibitem{Haack2016}
+Lauren~M Haack, Miguel Villodas, Keith McBurnett, Stephen Hinshaw, and Linda~J
+  Pfiffner.
+\newblock Parenting as a mechanism of change in psychosocial treatment for
+  youth with {ADHD}, predominantly inattentive presentation.
+\newblock {\em Journal of Abnormal Child Psychology}, September 2016.
+
+%\bibitem{Halmoey2009}
+%Anne Halm\o{}y, Ole~Bernt Fasmer, Christopher Gillberg, and Jan Haavik.
+%\newblock Occupational outcome in adult {ADHD}: impact of symptom profile,
+%  comorbid psychiatric problems, and treatment: a cross-sectional study of 414
+%  clinically diagnosed adult {ADHD} patients.
+%\newblock {\em Journal of Attention Disorders}, 13(2):175--187, Sep 2009.
+
+\bibitem{Heiervang2007}
+Einar Heiervang, Kjell~M. Stormark, Astri~J. Lundervold, Mikael Heimann, Robert
+  Goodman, Maj-Britt Posserud, Anne~K. Ulleb\o{}, Kerstin~J. Plessen, Ingvar
+  Bjelland, Stein~A. Lie, and Christopher Gillberg.
+\newblock Psychiatric disorders in norwegian 8- to 10-year-olds: an
+  epidemiological survey of prevalence, risk factors, and service use.
+\newblock {\em Journal of the American Academy of Child and Adolescent
+  Psychiatry}, 46(4):438--447, Apr 2007.
+
+\bibitem{Holmberg2014}
+Kirsten Holmberg and Sven {B\"{o}lte}.
+\newblock Do symptoms of {ADHD} at ages 7 and 10 predict academic outcome at
+  age 16 in the general population?
+\newblock {\em Journal of Attention Disorders}, 18(8):635--645, Nov 2014.
+
+\bibitem{Lee2006}
+Lee SS, Hinshaw SP.
+\newblock Predictors of adolescent functioning in girls with attention deficit
+  hyperactivity disorder ({ADHD}): the role of childhood {ADHD}, conduct
+  problems, and peer status.
+\newblock Journal of Clinical Child and Adolescent Psychology?: The Official Journal for the Society of Clinical Child and Adolescent Psychology, 
+\newblock American Psychological Association, Division, 2006. 53, 35(3), 356?368. http://doi.org/10.1207/s15374424jccp3503\_2.
+
+\bibitem{Lundervold2011}
+Lundervold AJ, Adolfsdottir S., Halleland H., Halm\o{}y A, 
+  Plessen K, Haavik J.
+\newblock Attention network test in adults with ADHD -- the impact of affective
+  fluctuations.
+\newblock Behavior and Brain Function, 2011.7:27, https://doi.org/10.1186/1744-9081-7-27.
+
+\bibitem{Lundervold2017}
+Lundervold  AJ, Meza J, Hinshaw SP.
+\newblock Parent rated symptoms of inattention in childhood predict high school ademic achievement across two culturally and diagnosticrlly diverse samples
+\newblock Frontiers of Psychology, 2017. 8, 1436. http://doi.org/10.3389/fpsyg.2017.01436.
+
+\bibitem{Metcalfe2013}
+Lindsay~A Metcalfe, Elizabeth~A Harvey, and Holly~B Laws.
+\newblock The longitudinal relation between academic/cognitive skills and
+  externalizing behavior problems in preschool children.
+\newblock {\em Journal of Educational Psychology}, 105:881--894, August 2013.
+
+\bibitem{Ohan2009}
+Jeneva~L Ohan and Troy A~W Visser.
+\newblock Why is there a gender gap in children presenting for attention
+  deficit/hyperactivity disorder services?
+\newblock {\em Journal of Clinical Child and Adolescent Psychology},
+  38:650--660, September 2009.
+
+\bibitem{Owens2017}
+Elizabeth~B Owens, Christine Zalecki, Peter Gillette, and Stephen~P Hinshaw.
+\newblock Girls with childhood adhd as adults: Cross-domain outcomes by
+  diagnostic persistence.
+\newblock {\em Journal of Consulting and Clinical Psychology}, April 2017.
+
+\bibitem{Pelham2011}
+William~E Pelham, Jr, Daniel~A. Waschbusch, Betsy Hoza, Elizabeth~M. Gnagy,
+  Andrew~R. Greiner, Susan~E. Sams, Gary Vallano, Antara Majumdar, and Randy~L.
+  Carter.
+\newblock Music and video as distractors for boys with {ADHD} in the classroom:
+  comparison with controls, individual differences, and medication effects.
+\newblock {\em Journal of Abnormal Child Psychology}, 39(8):1085--1098, Nov
+  2011.
+
+\bibitem{Pfiffner2014}
+Pfiffner LJ, Haack LM.
+\newblock Behavior management for school-aged children with {ADHD}.
+\newblock Child and Adolescent Psychiatric Clinics of North America, 2014.
+  23:731--746. http://doi.org/10.1016/j.chc.2014.05.014
+
+\bibitem{Pingault2014}
+Jean-Baptiste Pingault, Sylvana~M. Cote, Frank Vitaro, Bruno Falissard,
+  Christophe Genolini, and Richard~E. Tremblay.
+\newblock The developmental course of childhood inattention symptoms uniquely
+  predicts educational attainment: a 16-year longitudinal study.
+\newblock {\em Psychiatry Research}, 219(3):707--709, Nov 2014.
+
+\bibitem{Polderman2010}
+Tinca J~C. Polderman, D.~I. Boomsma, M.~Bartels, F.~C. Verhulst, and A.~C.
+  Huizink.
+\newblock A systematic review of prospective studies on attention problems and
+  academic achievement.
+\newblock {\em Acta Psychiatrica Scandinavica}, 122(4):271--284, Oct 2010.
+
+\bibitem{Rapport2013}
+Mark~D. Rapport, Sarah~A. Orban, Michael~J. Kofler, and Lauren~M. Friedman.
+\newblock Do programs designed to train working memory, other executive
+  functions, and attention benefit children with {ADHD}? a meta-analytic review
+  of cognitive, academic, and behavioral outcomes.
+\newblock {\em Clinical Psychology Review}, 33(8):1237--1252, Dec 2013.
+
+\bibitem{Rescorla2007}
+Rescorla, L, Achenbach, TM, vanova, MY, Dumenci, L, 
+  Almqvist, F., Bilenberg, N., etal. 
+\newblock Epidemiological comparisons of problems and positive qualities
+  reported by adolescents in 24 countries.
+\newblock Journal of Consulting and Clinical Psychology, 75(2):351--358,
+  Apr 2007.
+
+\bibitem{Ripley1996}
+Brian~D. Ripley, BD.
+\newblock {\em Pattern Recognition and Neural Networks}.
+\newblock Cambridge University Press, 1996.
+
+\bibitem{Russel2015}
+Russell, EA, Ford, T, Russell, G.
+\newblock Socioeconomic Associations with ADHD: Findings from a Mediation Analysis.
+\newblock PLoS ONE, 2015, 10(6), 2015, e0128248. http://doi.org/10.1371/journal.pone.0128248.
+
+\bibitem{Salla2016}
+Salla, J, Michel, M, Pingault, JB, Lacourse, E, 
+  Paquin, S, Galera, C, etal. 
+\newblock Childhood trajectories of inattention-hyperactivity and academic
+  achievement at 12 years.
+\newblock European Child and Adolescent Psychiatry, 2016,  25:1195--1206,
+  2016, doi: 10.1037/0022-006X.75.2.351.
+
+\bibitem{Sivertsen2015}
+B\o{}rge Sivertsen, Nick Glozier, Allison~G. Harvey, and Mari Hysing.
+\newblock Academic performance in adolescents with delayed sleep phase.
+\newblock {\em Sleep Medicine}, 16(9):1084--1090, Sep 2015.
+
+\bibitem{Strobl2009}
+Carolin Strobl, James Malley, and Gerhard Tutz.
+\newblock An introduction to recursive partitioning: rationale, application,
+  and characteristics of classification and regression trees, bagging, and
+  random forests.
+\newblock {\em Psychological Methods}, 14(4):323--348, Dec 2009.
+
+\bibitem{Swanson1992}
+J.M. Swanson.
+\newblock {\em School-based assessments and interventions for ADD students}.
+\newblock KC publishing, 1992.
+
+\bibitem{Tamm2017}
+Leanne Tamm, Jeffery~N Epstein, Richard E~A Loren, Stephen~P Becker, Sarah~B
+  Brenner, Morgan~E Bamberger, James Peugh, and Jeffrey~M Halperin.
+\newblock Generating attention, inhibition, and memory: A pilot randomized
+  trial for preschoolers with executive functioning deficits.
+\newblock {\em Journal of Clinical Child and Adolescent Psychology}, pages
+  1--15, January 2017.
+%
+%\bibitem{Vildalen2016}
+%Victoria~U Vildalen, Erlend~J Brevik, Jan Haavik, and Astri~J Lundervold.
+%\newblock Females with adhd report more severe symptoms than males on the adult
+%  adhd self-report scale.
+%\newblock {\em Journal of Attention Disorders}, July 2016.
+
+\end{thebibliography}
+
+%\begin{thebibliography}{10}
+%
+%
+%\bibitem{bib1}
+%Conant GC, Wolfe KH.
+%\newblock {{T}urning a hobby into a job: how duplicated genes find new
+%  functions}.
+%\newblock Nat Rev Genet. 2008 Dec;9(12):938--950.
+%
+%\bibitem{bib2}
+%Ohno S.
+%\newblock Evolution by gene duplication.
+%\newblock London: George Alien \& Unwin Ltd. Berlin, Heidelberg and New York:
+%  Springer-Verlag.; 1970.
+%
+%\bibitem{bib3}
+%Magwire MM, Bayer F, Webster CL, Cao C, Jiggins FM.
+%\newblock {{S}uccessive increases in the resistance of {D}rosophila to viral
+%  infection through a transposon insertion followed by a {D}uplication}.
+%\newblock PLoS Genet. 2011 Oct;7(10):e1002337.
+%
+%\end{thebibliography}
+%
+%
+
+\end{document}
+
