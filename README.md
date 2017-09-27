@@ -31,10 +31,16 @@ Primary school teachers’ reports of problems related to sustained attention an
 
 Libraries being used:
 
-* memisc - spss.system.file()
-* psych  - headTail(), describe()
-* Hmisc - describe()
-* pander - pander(), panderOptions()
+* numpy: 1.12.1
+* pandas: 0.20.3
+* scipy: 0.19.1
+* matplotlib: 2.0.2
+* sklearn: 0.19.0
+* seaborn: 0.8.1
+* xgboost: 0.6
+* graphviz: 0.7.1
+* statsmodels: 0.8.0
+* rpy2: 2.8.5
 
 <img src="./images/Data_to_classes_notebook_pptx.jpg" width="500px" height="500px" />
 
