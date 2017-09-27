@@ -1,13 +1,8 @@
-# inattention-populationsample
-Prediction of academic achievement in adolescents from teacher reports of inattention in childhood - a methodological pattern classification study (AJL, TB, AL)
+# Predicting academic achievement from inattention (SNAP)
+A.J. Lundervold, T. Bøe, A. Lundervold. Inattention in primary school is not good for your future school achievement - a pattern classification study. In rev.
 
-<small>
-This is an [R Markdown](http://rmarkdown.rstudio.com) [Notebook](http://rmarkdown.rstudio.com/r_notebooks.html). 
-When you execute code within the notebook, the results appear beneath the code. 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
-</small>
+
+Last updated: Arvid Lundervold, 27-Sep-2017
 
 
 ## Abstract
@@ -23,7 +18,6 @@ Overall, inattention was rated as more severe in boys, who also obtained lower a
 
 ### Conclusion 
 Primary school teachers’ reports of problems related to sustained attention and distractibility were the most important features of inattentive behaviour predicting academic achievement in high school. Identification and follow-up procedures of primary school children showing these features should be prioritised to prevent future academic failure.
-
 
 
 
