@@ -12,17 +12,17 @@ When you save the notebook, an HTML file containing the code and output will be 
 
 ## Abstract
 
-### Background
-Inattentive behavior is associated with academic problems. The present study investigates primary school teacher reports on nine items reflecting different aspects of inattention, with an aim to reveal patterns of behavior predicting high-school academic achievement. To that end, we used different types of pattern analysis and machine learning methods. 
+### Objective
+Objective. Inattention in childhood is associated with academic problems later in life. The contribution of specific aspects of inattentive behaviour is, however, less known. We investigated feature importance of primary school teachers’ reports on nine aspects of inattentive behaviour, gender and age in predicting future academic achievement. 
 
 ### Methods
-Inattention in a sample 2397 individuals were rated by their primary school teachers when they participated in the first wave of the Bergen Child Study (BCS) (7 - 9 years old), and their academic achievements were available from an official school register when attending high-school (16 - 19 years old). Inattention was assessed by the nine items rated at a categorical leve, and the academic achievement scores were divided into three parts including a similar number of participants. 
+Primary school teachers of n = 2491 children (7 - 9 years) rated nine items reflecting different aspects of inattentive behaviour in 2002. A mean academic achievement score at high-school (2012) was available for each youth from an official school register. All scores were at a categorical level. Feature importance was assessed by including a classification and regression trees, a multinominal logistic regression, and a random forest algorithm. A comprehensive pattern classification procedure using k-fold cross-validation was implemented to vote for accuracy, precision and recall. 
 
 ### Results 
-Boys obtained higher inattention scores and lower academic scores than girls. Inattention problems related to sustained attention and distractibility turned out to have the highest predictive value of academic achievement level across all selected statistical analyses, and the full model showed that inattention explained about 10\% of the variance in high school scores about 10 years later. A high odds-ration of being allocated to the lowest academic achievement category was shown by a multinominal regression analysis, while a pattern of problems related to sustained attention and distractibility was revealed by generating classification trees. By including recursive learning algorithms, the most successful classification was found between these inattention items and the highest level of achievement scores. 
+Overall, inattention was rated as more severe in boys, who also obtained lower achievement scores at high school than girls. Problems related to sustained attention and distractibility were together with age and gender defined as the most important features to predict future achievement scores. A cross-validation model including these four features gave accuracy, precision and recall that were better than chance levels. 
 
-### Summary 
-The present study showed the importance of a pattern of early problems related to sustained attention and distractibility in predicting future academic results. By including different statistical classification models we showed that this pattern was fairly consistent. Furthermore, calculation of classification errors gave information about the uncertainty when predicting the outcome for individual children. Further studies should include a wider range of variables. 
+### Conclusion 
+Primary school teachers’ reports of problems related to sustained attention and distractibility were the most important features of inattentive behaviour predicting academic achievement in high school. Identification and follow-up procedures of primary school children showing these features should be prioritised to prevent future academic failure.
 
 
 
@@ -36,24 +36,40 @@ Libraries being used:
 * Hmisc - describe()
 * pander - pander(), panderOptions()
 
-<img src="./images/Data_to_classes_pptx.jpg" width="500px" height="500px" />
+<img src="./images/Data_to_classes_notebook_pptx.jpg" width="500px" height="500px" />
 
 ### Data preparation
 
 Code:
- * inattention-populationsample-data-prep.Rmd
+ * 01_preparation.ipynb
  
 Input file:
 
- * inattention_Arvid_new.sav (from Astri, on ~/Dropbox/Arvid_inattention/data2)
- * Alternatively: D <- read.csv(file = "../data/inattention_nomiss_2397x12.csv")
+ * inattention_Astri_94_96_new_grades_updated.sav (28 Oct 2015, 34 MB) 
+
  
 Output files (data):
 
- * inattention_nomiss_2397x12.csv
- * inattention_nomiss_2397x12_snap_is_0_1_2.csv
- * inattention_nomiss_2397x12_snap_is_0_1.csv
- * inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_L_M_H.csv (Low, Medium, High academic score)
- * inattention_nomiss_2397x12_snap_is_0_1_2_outcome_is_0_1_2.csv (all numerical)
- * inattention_nomiss_2397x12_snap_is_N_S_C_outcome_is_L_M_H.csv (Not, Somewhat, Certainly true)
+ * inattention_nomiss_2491x12.csv
+ * heatmap_gender.pdf
+ * heatmap_grade.pdf
+ * heatmap_SNAP1_SNAP9.pdf
+ * heatmap_ave.pdf
+ * heatmap_aveBinned.pdf
+ 
+ 
+ ### Prediction using $k$fold cross-validation
+ 
+ Code:
+ * 02_prediction.ipynb
+ 
+Input file:
+
+ * inattention_nomiss_2491x12.csv (from 01_preparation.ipynb)
+ 
+ 
+ Output files:
+ 
+ * inattention_CART.pdf
+ * random_forest_feature_importance.pdf
  
