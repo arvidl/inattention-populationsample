@@ -37,7 +37,7 @@ Libraries being used:
 * statsmodels: 0.8.0
 * rpy2: 2.8.5
 
-<img src="./images/Data_to_classes_notebook_pptx.png" width="700px" height="500px" />
+<img src="./images/Data_to_classes_notebook_pptx.png" width="600px" height="500px" />
 
 ### Data preparation
 
