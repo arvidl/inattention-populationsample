@@ -1,9 +1,10 @@
 # Predicting academic achievement from inattention (SNAP)
-A.J. Lundervold, T. Bøe, A. Lundervold. Inattention in primary school is not good for your future school achievement - a pattern classification study. In rev.
+A.J. Lundervold, T. Bøe, A. Lundervold. <i>Inattention in primary school is not good for your future school achievement - a pattern classification study.</i> In rev.
 
 
+<small>
 Last updated: Arvid Lundervold, 27-Sep-2017
-
+</small>
 
 ## Abstract
 
