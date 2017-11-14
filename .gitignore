@@ -11,7 +11,7 @@
 # Output files from R CMD build
 /*.tar.gz
 
-# Output files from R CMD check
+# Output files from R CMD check'
 /*.Rcheck/
 
 # RStudio files
@@ -32,4 +32,24 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 #
+
+# Mac OS
 .DS_Store
+
+# Jupyter NB Checkpoints
+.ipynb_checkpoints/
+
+# Latex
+.synctex.gz
+.bbl
+.blg
+.aux
+.log
+.toc
+
+# Emacs
+*~
+
+# Do not provide '01_preparation.ipynb'
+01_preparation.ipynb
+
