@@ -96,6 +96,8 @@
 % line numbers
 \usepackage[right]{lineno}
 
+
+
 % ligatures disabled
 \usepackage{microtype}
 \DisableLigatures[f]{encoding = *, family = * }
@@ -250,7 +252,7 @@ reflect impairment of sustained and focused attention, impaired working memory, 
 
 Primary school teachers' skills are crucial in the work to detect and help a child struggling with inattention. They observe their pupils on a regular basis and in a wide range of situations were inattention tends to have negative effects on performance. At the same time, one should be aware of the risk of biases. Primary school teachers may for example be more tolerant to the behaviour of a child in the lowest class levels, and previous studies have shown that teachers tend to rate girls as less impaired than boys, even when the girls exhibit problematic behaviour in the classroom \cite{Becker2013, Bussing2003c, Ohan2009}. The child's gender and age should therefore be taken into account when evaluating teacher ratings of inattentive behaviour. \\
 
-The aim of the present study was to further investigate the importance of primary school teachers reports of inattentive behaviour. 
+The aim of the present study was to further investigate the importance of primary school teachers' reports of inattentive behaviour. 
 To that end, we included data from the Bergen Child Study, where primary school teachers completed a questionnaire including nine items 
 reflecting different aspects of inattentive behaviour when the children were between 7 and 9 years old. About ten years later, when the children 
 had become high school students, academic achievement scores from the official school registry of Norway were available for a subset of 
@@ -274,7 +276,7 @@ During the initial screening phase, parents and teachers were asked to complete 
 Sample protocols of the first wave have been described in several previous publications from the Bergen Child Study group 
 (e.g., \cite{Heiervang2007, Lundervold2011, Sivertsen2015}).\\
 
-A fourth and final study-wave was conducted when the youth were between 16 and 19 years old. The sample for this wave included all adolescents born between 1993 and 1995 living in the county of Hordaland $n=10,222$). This county includes the city of Bergen, and the BCS sample was thus nested within this Hordaland sample. Academic achievement scores from the previous semester in high school were made available from the official school registry.  The BCS was approved by the Regional Committee for Medical and Health Research Ethics (REC), Western Norway (2015/800 Barn i Bergen/ung$@$hordaland). Parents gave written consent for participation in the first wave of the study. In accordance with the regulations from the REC and Norwegian health authorities, adolescents aged 16 years and older can make decisions regarding their own health (including participation in health studies), and thus gave consent themselves to participate in the fourth wave of the study. Parents/guardians have the right to be informed, and in the current study, all parents/guardians received written information about the study in advance.
+A fourth and final study-wave was conducted when the youth were between 16 and 19 years old. The sample for this wave included all adolescents born between 1993 and 1995 living in the county of Hordaland ($n=10,222$). This county includes the city of Bergen, and the BCS sample was thus nested within this Hordaland sample. Academic achievement scores from the previous semester in high school were made available from the official school registry.  The BCS was approved by the Regional Committee for Medical and Health Research Ethics (REC), Western Norway (2015/800 Barn i Bergen/ung$@$hordaland). Parents gave written consent for participation in the first wave of the study. In accordance with the regulations from the REC and Norwegian health authorities, adolescents aged 16 years and older can make decisions regarding their own health (including participation in health studies), and thus gave consent themselves to participate in the fourth wave of the study. Parents/guardians have the right to be informed, and in the current study, all parents/guardians received written information about the study in advance.
 More information about the project is given at the BCS homepage: {\small \url{http://uni.no/en/bergen-child-study}}.
 
 \vspace{3mm}
@@ -366,7 +368,6 @@ and Matplotlib (2.0) for producing Figs~1-3. Our Jupyter notebook for computing 
 classification with $k$-fold cross-validation will be available on GitHub ({\small \url{https://github.com/arvidl/inattention-populationsample}}).  
 
 \vspace{3mm}
-
 \subsubsection*{(a) Data preparation and explorative data analysis}
 
 The original data, provided to us as a SPSS-file, were imported into the Jupyter notebook environment via {\tt rpy2} and the {\tt r-foreign} packages. 
@@ -402,8 +403,8 @@ the predictor variables {\it gender}, {\it grade},
  
  \subsubsection*{(b) Assessment of feature importance} 
   To assess feature importances of the 11 candidate variables for predicting {\it low}, {\it medium}, and {\it high} academic achievement in the whole cohort,
- we performed three types of analyses: ({\bf i}) Multinomial logistic regression with consideration of each parameter, i.e. the magnitude of its coefficient, the standard error of the corresponding parameter, and the odds ratio. 
- ({\bf ii}) A CART analysis with assessment 
+ we performed three types of analyses: ({\bf i}) Multinomial logistic regression with consideration of each parameter, i.e. the magnitude of its coefficient, the standard error of the corresponding parameter, and the odds ratio, 
+ ({\bf ii}) a CART analysis with assessment 
  of the top important decision nodes, and ({\bf iii}) a random forest classification using a forest of 10000 trees (``weak learners") and ordering of features importance according
   to the 'gini' information criterion. 
  
@@ -504,6 +505,8 @@ The prediction of {\it low} rather than {\it high} academic achievement score wa
 
 To sum up the results from the MLR, inattentive behaviour associated with problems related to sustained attention and distractibility predicted {\it low} rather than {\it medium}
 or {\it high} academic achievement levels in high school, with an overall higher odds-ratio in boys than in girls (Table 3). \\
+
+
 
 
 \vspace{3mm}
@@ -687,7 +690,7 @@ and the comprehensive $k$-fold cross-validation procedure. We believe that the r
 to the topic of the present study, in that questionnaire data with a few response categories are commonly used in psychological research. \\
 
 
-In spite of the strengths and the importance of the present study, several limitations must be mentioned. Inclusion of very few features when predicting an outcome about 10 years ahead, is an obvious limitation of the present study. A stronger model could have been obtained by including results from psychometric test assessing vigilance and distractibility, similar to the one developed by Cassuto et al. \cite{Cassuto2013}, or more ecological valid virtual reality test as the one described by Pelham et al. \cite{Pelham2011}. Inclusion of teacher reports only may also be considered as a limitation.  Furthermore, stronger conclusions could have been obtained by including information from repeated inattention reports to understand the trajectory from early symptoms of inattention to function in adolescence and adulthood. The importance of the latter was demonstrated in a study by Pingault and collaborators \cite{Pingault2014}, showing that increase in symptoms of inattention during childhood really matters when it comes to school graduation failure. Such studies are important and should include analysis of behavioural patterns, because a specific pattern of vigilance and distraction was suggested by the present study. Finally, academic achievement level did not reflect overall high school achievement, in that it was operationalised as the mean of grades for one semester only.\\
+In spite of the strengths and the importance of the present study, several limitations must be mentioned. Inclusion of very few features when predicting an outcome about 10 years ahead, is an obvious limitation of the present study. A stronger model could have been obtained by including results from a psychometric test assessing vigilance and distractibility, similar to the one developed by Cassuto et al. \cite{Cassuto2013}, or a more ecological valid virtual reality test as the one described by Pelham et al. \cite{Pelham2011}. Inclusion of teacher reports only may also be considered as a limitation.  Furthermore, stronger conclusions could have been obtained by including information from repeated inattention reports to understand the trajectory from early symptoms of inattention to function in adolescence and adulthood. The importance of the latter was demonstrated in a study by Pingault and collaborators \cite{Pingault2014}, showing that increase in symptoms of inattention during childhood really matters when it comes to school graduation failure. Such studies are important and should include analysis of behavioural patterns, because a specific pattern of vigilance and distraction was suggested by the present study. Finally, academic achievement level did not reflect overall high school achievement, in that it was operationalised as the mean of grades for one semester only.\\
 
 
 \vspace{3mm}
@@ -718,11 +721,12 @@ denotes that the corresponding statement is false and then pointing to the right
 \section*{Acknowledgement}
 The Bergen Child study (BCS) was supported by the Centre for Child and Adolescent Mental Health and Welfare, Uni health, Uni
 Research, Bergen, Norway, and was also funded by the University of Bergen, the Norwegian Directorate for Health and
-Social Affairs, and the Western Norway Regional Health Authority. We are grateful to the children, parents and teachers
+Social Affairs, and the Western Norway Regional Health Authority. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+We are grateful to the children, parents and teachers
 participating in the BCS and members of the BCS project group for making the study possible. A
-special thank to Professor Christopher Gillberg, who initiated this study. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
-
+special thank to Professor Christopher Gillberg, who initiated this study. 
 \newpage
+
 
 %\begin{thebibliography}{10}
 \begin{thebibliography}{vancouver.bst}
@@ -746,11 +750,13 @@ Lee SS, Hinshaw SP.
   problems, and peer status.
 \newblock Journal of Clinical Child and Adolescent Psychology. 2006;35(3), 356-368. doi: 10.1207/s15374424jccp3503\_2.
 
+
 \bibitem{Owens2017}
 Owens EB, Zalecki C, Gillette P, Hinshaw SP.
 \newblock Girls with childhood ADHD as adults: Cross-domain outcomes by
   diagnostic persistence.
 \newblock Journal of Consulting and Clinical Psychology. 2017;85(7):723-736. doi: 10.1037/ccp0000217.
+
 
 \bibitem{Polderman2010}
 Polderman TJ, Boomsma DI, Bartels M, Verhulst FC, Huizink AC.
@@ -758,17 +764,20 @@ Polderman TJ, Boomsma DI, Bartels M, Verhulst FC, Huizink AC.
   academic achievement.
 \newblock Acta Psychiatrica Scandinavica. 2010;122(4):271-284. doi: 10.1111/j.1600-0447.2010.01568.x.
 
+
 \bibitem{Metcalfe2013}
 Metcalfe LA, Harvey EA, and Laws HB.
 \newblock The longitudinal relation between academic/cognitive skills and
   externalizing behavior problems in preschool children.
 \newblock Journal of Educational Psychology. 2013;105:881-894. doi: 10.1037/a0032624.
 
+
 \bibitem{Pingault2014}
 Pingault J, Cote SM, Vitaro F, Falissard B, Genolini C, Tremblay RE.
 \newblock The developmental course of childhood inattention symptoms uniquely
   predicts educational attainment: a 16-year longitudinal study.
 \newblock Psychiatry Research. 2014;219(3):707-709. doi: 10.1016/j.psychres.2014.06.022.
+
 
 \bibitem{Garner2013}
 Garner AA, O'connor, BC, Narad ME, Tamm L, Simon J, Epstein JN.
@@ -781,10 +790,12 @@ Holmberg K, {B\"{o}lte} S.
 \newblock Do symptoms of {ADHD} at ages 7 and 10 predict academic outcome at age 16 in the general population?
 \newblock Journal of Attention Disorders. 2014;18(8):635--645. doi: 10.1177/1087054712452136.
 
+
 \bibitem{Gray2014}
 Gray SAO, Carter AS, Briggs-Gowan MJ, Jones SM, Wagmiller RL.
 \newblock Growth trajectories of early aggression, overactivity, and inattention: Relations to second-grade reading.
 \newblock Developmental Psychology. 2014;50(9):2255-2263. doi: 10.1037/a0037367. 
+
 
 \bibitem{Salla2016}
 Salla J, Michel G, Pingault JB, Lacourse E, 
@@ -800,12 +811,15 @@ Berry AS, Demeter E, Sabhapathy S, English BA,
   influences distractibility but not time-on-task effects.
 \newblock Journal of Cognitive Neuroscience. 2014;26(9):1981-1991.  doi: 10.1162/jocn\_a\_00607.
 
+
 \bibitem{Rescorla2007}
 Rescorla L, Achenbach TM, Ivanova MY, Dumenci L, 
   Almqvist F, Bilenberg N, etal. 
 \newblock Epidemiological comparisons of problems and positive qualities
   reported by adolescents in 24 countries.
 \newblock Journal of Consulting and Clinical Psychology. 2007;75(2):351-358. doi: 10.1037/0022-006X.75.2.351
+
+
 
 \bibitem{Becker2013}
 Becker SP, Luebbe AM, Fite PJ, Greening L,
@@ -821,17 +835,22 @@ Bussing R, Zima BT, Gary FA, Garvan CW.
   with {ADHD} symptoms.
 \newblock The journal of Behavioral Health Services \& Research. 2003;30:176-189.
 
+
+
 \bibitem{Ohan2009}
 Ohan JL, Visser TAW.
 \newblock Why is there a gender gap in children presenting for attention
   deficit/hyperactivity disorder services?
 \newblock Journal of Clinical Child and Adolescent Psychology. 2009;38(5):650-60. doi: 10.1080/15374410903103627.
 
+
+
  \bibitem{Fried2016}
  Fried R, Petty C, Faraone SV, Hyder LL, Day H, Biederman J.
 \newblock Is ADHD a risk factor for high school dropout? A controlled
 study. 
  \newblock Journal of Attention Disorder. 2016;20, 383-389. doi: 10.1177/1087054712473180.
+ 
  
 \bibitem{Swanson1992}
 Swanson JM.
@@ -845,6 +864,7 @@ Heiervang E, Stormark KM, Lundervold AJ, Heimann M, Goodman R, Posserud M, etal.
 \newblock Journal of the American Academy of Child and Adolescent
   Psychiatry. 2007;46(4):438-447. doi: 10.1097/chi.0b013e31803062bf
   
+  
 \bibitem{Lundervold2011}
 Lundervold AJ, Adolfsdottir S., Halleland H., Halm\o{}y A, 
   Plessen K, Haavik J.
@@ -852,10 +872,17 @@ Lundervold AJ, Adolfsdottir S., Halleland H., Halm\o{}y A,
   fluctuations.
 \newblock Behavior and Brain Function. 2011;27;7:27.  doi: 10.1186/1744-9081-7-27.
 
+
+
 \bibitem{Sivertsen2015}
 Sivertsen B, Glozier N, Harvey AG, Hysing, M.
 \newblock Academic performance in adolescents with delayed sleep phase.
 \newblock Sleep Medicine. 2015;16(9):1084-1090. doi: 10.1016/j.sleep.2015.04.011.
+
+%\bibitem{Swanson1992}
+%Swanson JM.
+%\newblock School-based assessments and interventions for ADD students. 
+%\newblock KC publishing;1992.
 
 \bibitem {APA2013}
 American Psychiatric Association. 
@@ -868,25 +895,37 @@ Bilder CR,  Loughin TM.
 \newblock Analysis of Categorical Data with R.
 \newblock CRC Press; 2015.
 
+
 \bibitem{Breiman2001}
 Breiman L.
 \newblock Random Forests. 
 \newblock Machine Learning. 2001;45(1):5-32. doi:10.1023/A:1010933404324.
+
+
+%\bibitem{Holmberg2014}
+%Holmberg K, {B\"{o}lte} S.
+%\newblock Do symptoms of {ADHD} at ages 7 and 10 predict academic outcome at
+%  age 16 in the general population?
+%\newblock Journal of Attention Disorders. 2014;18(8):635--645. doi: 10.1177/1087054712452136.
+
 
 \bibitem{Lundervold2017}
 Lundervold  AJ, Meza J, Hinshaw SP.
 \newblock Parent rated symptoms of inattention in childhood predict high school academic achievement across two culturally and diagnostically diverse samples.
 \newblock Frontiers of Psychology. 2017:8,1436. doi: 10.3389/fpsyg.2017.01436.
 
+
 \bibitem{Russel2015}
 Russell EA, Ford T, Russell G.
 \newblock Socioeconomic Associations with ADHD: Findings from a Mediation Analysis.
 \newblock PLoS One. 2015;10(6). doi: 10.1371/journal.pone.0128248. 
 
+
 \bibitem{Boe2012}
 B\o{}e T, \O{}verland S, Lundervold AJ, Hysing M.
 \newblock Socioeconomic status and children's mental health: results from the Bergen Child Study.
 \newblock Soc Psychiatry Psychiatr Epidemiol. 2012;47(10):1557-66. doi: 10.1007/s00127-011-0462-9. 
+
 
 \bibitem{Ellertsen2016}
 Ellertsen T, Thorsen AL, HolmSE, B\o{}e T, S\o{}rensen L, Lundervold,
@@ -896,15 +935,18 @@ in a sample of Norwegian children.
 \newblock Scandinavian Journal of Psychology, 2016;57: 399?405. doi: 10.1111/
 sjop.12324
   
+
 \bibitem{Berger2013}
 Berger I, Slobodin O, Aboud M, Melamed J, Cassuto H.
 \newblock Maturational delay in {ADHD}: evidence from {CPT}.
 \newblock Frontiers in Human Neuroscience. 2013;7:691. doi: 10.3389/fnhum.2013.00691
 
+
 \bibitem{Berger2015}
 Berger I, Remington A, Leitner Y, Leviton A.
 \newblock Brain development and the attention spectrum.
 \newblock Frontiers in Human Neuroscience. 2015;9:23. doi: 10.1038/tp.2017.164
+
 
 \bibitem{Rapport2013}
 Rapport MD, Orban SA, Kofler MJ, Friedman LM.
@@ -913,11 +955,13 @@ Rapport MD, Orban SA, Kofler MJ, Friedman LM.
   of cognitive, academic, and behavioral outcomes.
 \newblock Clinical Psychology Review. 2013;33(8):1237-1252. doi: 10.1016/j.cpr.2013.08.005.
 
+
 \bibitem{Tamm2017}
 Tamm L, Epstein JN, Loren REA, Becker SP, Brenner SB, Bamberger ME, etal.
 \newblock Generating attention, inhibition, and memory: A pilot randomized
   trial for preschoolers with executive functioning deficits.
 \newblock Journal of Clinical Child and Adolescent Psychology. 2017;20:1-15. doi: 10.1080/15374416.2016.1266645. 
+
 
 \bibitem{Cortese2015}
 Cortese S, Ferrin M, Brandeis D, Buitelaar J, Daley D,
@@ -928,10 +972,12 @@ Cortese S, Ferrin M, Brandeis D, Buitelaar J, Daley D,
 \newblock Journal of the American Academy of Child and Adolescent
   Psychiatry. 2015;54:164-174. doi: 10.1016/j.jaac.2014.12.010.
 
+
 \bibitem{Pfiffner2014}
 Pfiffner LJ, Haack LM.
 \newblock Behavior management for school-aged children with {ADHD}.
 \newblock Child and Adolescent Psychiatric Clinics of North America. 2014;23:731-746. doi: 10.1016/j.chc.2014.05.014.
+
 
 \bibitem{Haack2016}
 Haack LM, Villodas M, McBurnett K, Hinshaw S, Pfiffner LJ.
@@ -939,10 +985,13 @@ Haack LM, Villodas M, McBurnett K, Hinshaw S, Pfiffner LJ.
   youth with {ADHD}, predominantly inattentive presentation.
 \newblock Journal of Abnormal Child Psychology. 2016;45(5):841-855. doi: 10.1007/s10802-016-0199-8.
 
+
+
 \bibitem{Cassuto2013}
 Cassuto H, Ben-Simon A, Berger I.
 \newblock Using environmental distractors in the diagnosis of {ADHD}.
 \newblock Frontiers in Human Neuroscience. 2013;7:805. doi: 10.3389/fnhum.2013.00805.
+
 
 \bibitem{Pelham2011}
 Pelham WE, Waschbusch DA, Hoza B, Gnagy EM,
@@ -951,7 +1000,40 @@ Pelham WE, Waschbusch DA, Hoza B, Gnagy EM,
   comparison with controls, individual differences, and medication effects.
 \newblock Journal of Abnormal Child Psychology. 2011;39(8):1085-1098. doi: 10.1007/s10802-011-9529\-z.
 
+
+
+%
+%
+%\bibitem{Capriotti2017}
+%Capriotti MR, Pfiffner LJ.
+%\newblock Patterns and predictors of service utilization among youth with
+%  {ADHD} - predominantly inattentive presentation.
+%\newblock Journal of Attention Disorders. 2017;1:1087054716677817. doi: 10.1177/1087054716677817
+
+
+
+%\bibitem{Ripley1996}
+%Ripley, BD.
+%\newblock Pattern Recognition and Neural Networks.
+%\newblock Cambridge University Press;1996.
+
+
+%
+%
+%\bibitem{Strobl2009}
+%Strobl C, Malley J, Tutz G.
+%\newblock An introduction to recursive partitioning: rationale, application,
+%  and characteristics of classification and regression trees, bagging, and
+%  random forests.
+%\newblock Psychological Methods. 2009;14(4):323-348. doi: 10.1037/a0016973.
+
+
+
+
+
+
 \end{thebibliography}
+
 
 \end{document}
 
