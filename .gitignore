@@ -37,7 +37,7 @@ vignettes/*.pdf
 .DS_Store
 
 # Jupyter NB Checkpoints
-.ipynb_checkpoints/
+./notebooks/.ipynb_checkpoints/
 
 # Latex
 .synctex.gz
