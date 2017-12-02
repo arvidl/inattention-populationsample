@@ -1,9 +1,9 @@
 # Predicting academic achievement from inattention (SNAP)
-A.J. Lundervold, T. Bøe, A. Lundervold. <i>Inattention in primary school is not good for your future school achievement - a pattern classification study.</i> To appear in PLoS ONE.
+A.J. Lundervold, T. Bøe, A. Lundervold. <i>Inattention in primary school is not good for your future school achievement - a pattern classification study.</i> PLoS ONE 2017;12(11): e0188310 (https://doi.org/10.1371/journal.pone.0188310)
 
 
 <small>
-Last updated: Arvid Lundervold, 14-Nov-2017
+Last updated: Arvid Lundervold, 02-Dec-2017
 </small>
 
 ## Abstract
@@ -32,14 +32,16 @@ Libraries being used:
 
 <img src="./images/Data_to_classes_notebook_pptx.png" width="600px" height="500px" />
 
+<img src="./images/brain_mask-plosone-wordcloud.png" width="600px" height="500px" />
+
 ### Data preparation
 
 Code:
- * 01_preparation.ipynb
+ * 01_preparation.ipynb  (not provided)
  
 Input file:
 
- * <not provided>.sav (34 MB) 
+ * <original_data>.sav (34 MB; not provided) 
 
  
 Output files (data):
@@ -66,4 +68,26 @@ Input file:
  
  * inattention_CART.pdf
  * random_forest_feature_importance.pdf
+
+
+ ###  Manuscript
+
+ * Manuscript_plosone.tex  (as submitted)
+ * Published_journal_pone_0188310_20171128.pdf (as published)
  
+
+ ### Making WordCloud of manuscript
+
+Code:
+* brain_wordcload.ipynb
+
+Input files:
+
+* brain-silhouette.png
+* Manuscript_plosone_tex.txt  (detex from Manuscript_plosone.tex)
+
+Output files:
+
+* brain-plosone-wordcloud.png
+* brain_mask-plosone-wordcloud.pdf
+
