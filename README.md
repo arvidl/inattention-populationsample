@@ -14,6 +14,7 @@ Using these four features as input to a collection of  classifiers
 employing $k$-fold cross-validation for prediction of academic achievement level, we obtained classification accuracy, precision and recall that were clearly better than chance levels. 
 Primary school teachers' reports of problems related to sustained attention and distractibility were identified as the two most important features of inattentive behaviour predicting academic achievement in high school.  Identification and follow-up procedures of primary school children showing these characteristics should be prioritised to prevent future academic failure.
 
+<img src="./images/brain-plosone-wordcloud.png" width="600px" height="500px" />
 
 <small>Organization of the data and the analysis:</small>
 
@@ -32,7 +33,6 @@ Libraries being used:
 
 <img src="./images/Data_to_classes_notebook_pptx.png" width="600px" height="500px" />
 
-<img src="./images/brain_mask-plosone-wordcloud.png" width="600px" height="500px" />
 
 ### Data preparation
 
